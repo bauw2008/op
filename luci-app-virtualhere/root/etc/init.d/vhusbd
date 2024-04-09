@@ -2,6 +2,7 @@
 # Copyright (C) 2008-2020 OpenWrt.org
 
 START=99
+USE_PROCD=1
 
 start_instance() {
     local cfg="$1"
@@ -9,7 +10,7 @@ start_instance() {
     config_get_bool ExtAccess "$cfg" 'ExtAccess' '0'
 #   echo "enabled=$enabled,ExtAccess=$ExtAccess">>/tmp/tmp/vhusbd
     if [ $enabled -eq 1 ]; then
-        vhusbd -b -c /etc/config/vhusbdconfig -r /tmp/vhusbd.log
+        vhusbd -b -c /etc/config/vhusbd -r /tmp/vhusbd.log
 #       echo "virtualhere start">>/tmp/tmp/vhusbd
 	if [ $ExtAccess -eq 1 ]; then
             iptables -I INPUT -p tcp --dport 7575 -j ACCEPT -m comment --comment 'virtualhere port'

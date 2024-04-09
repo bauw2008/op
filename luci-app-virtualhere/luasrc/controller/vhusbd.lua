@@ -1,7 +1,3 @@
---[[
-vhusbd Luci configuration page.Made by 981213
-]]--
-
 module("luci.controller.vhusbd", package.seeall)
 
 function index()
@@ -20,3 +16,4 @@ function vhusbd_status()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(status)
 end
+

@@ -1,8 +1,7 @@
---[[
---vhusbd configuration page. Made by 981213
---
-]] --
-local fs = require "nixio.fs"
+
+require("luci.model.ipkg")
+local fs  = require "nixio.fs"
+require("nixio.fs")
 
 
 m = Map("vhusbd", translate("VirtualHere USB Server"), translatef(
@@ -22,3 +21,4 @@ Access = s:option(Flag, "ExtAccess", translate("外网访问"))
 Access.rmempty = false
 
 return m
+
