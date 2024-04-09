@@ -33,7 +33,7 @@ define Build/Compile
 endef
 
 ifeq ($(ARCH),x86_64)
-	EXE_FILE:=vhusbdx86_64
+	EXE_FILE:=vhusbdx86
 endif
 ifeq ($(ARCH),arm)
 	EXE_FILE:=vhusbdarm
