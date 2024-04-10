@@ -1,0 +1,12 @@
+{
+    "luci-app-vusb": {
+        "description": "Grant UCI access for luci-app-vusb",
+        "read": {
+            "uci": [ "vusb" ]
+        },
+        "write": {
+            "uci": [ "vusb" ]
+        }
+    }
+}
+
