@@ -17,7 +17,6 @@ define Package/vusb
   CATEGORY:=Network
   TITLE:=VirtualHere USB Service for LuCI
   DEPENDS:=@(x86_64||arm||arm64||mipsel||aarch64)
-  PKGARCH:=all
 endef
 
 define Package/vusb/description
@@ -47,13 +46,13 @@ ifeq ($(ARCH),aarch64)
 endif
 
 define Package/vusb/install
-        $(INSTALL_DIR) $(1)/etc/config/
+	$(INSTALL_DIR) $(1)/etc/config/
 	$(INSTALL_CONF) $(CURDIR)/files/vusb.conf $(1)/etc/config/vusb
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_BIN) $(CURDIR)/files/vusb.init $(1)/etc/init.d/vusb
 
 	$(INSTALL_DIR) $(1)/usr/bin
-	cp -pR ./files/$(EXE_FILE) $(1)/usr/bin/vusb
+	$(INSTALL_BIN) $(CURDIR)/files/$(EXE_FILE) $(1)/usr/bin/vusb
 endef
 
 $(eval $(call BuildPackage,vusb))

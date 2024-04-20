@@ -3,28 +3,17 @@
 
 START=99
 
-echo "Starting vhusbd service..." >> /tmp/my_script_log.txt
-vhusbd -b -c /etc/config/vhusbdconfig -r /tmp/vhusbd.log >> /tmp/my_script_log.txt 2>&1
-echo "vhusbd service started with exit code: $?" >> /tmp/my_script_log.txt
-
 start_instance() {
     local cfg="$1"
     config_get_bool enabled "$cfg" 'enabled' '0'
     config_get_bool ExtAccess "$cfg" 'ExtAccess' '0'
-    
-    if [ ! -x /usr/bin/vhusbd ]; then
-        chmod 755 /usr/bin/vhusbd
-    fi
-    
+#   echo "enabled=$enabled,ExtAccess=$ExtAccess">>/tmp/tmp/vhusbd
     if [ $enabled -eq 1 ]; then
         vhusbd -b -c /etc/config/vhusbdconfig -r /tmp/vhusbd.log
-        vhusbd_status=$?  # 获取命令执行的返回状态
-        if [ $vhusbd_status -eq 0 ]; then
-            if [ $ExtAccess -eq 1 ]; then
-                iptables -I INPUT -p tcp --dport 7575 -j ACCEPT -m comment --comment 'virtualhere port'
-            fi
-        else
-            echo "Failed to start vhusbd service. Exit code: $vhusbd_status"
+#       echo "virtualhere start">>/tmp/tmp/vhusbd
+	if [ $ExtAccess -eq 1 ]; then
+            iptables -I INPUT -p tcp --dport 7575 -j ACCEPT -m comment --comment 'virtualhere port'
+#           echo "virtualhere open firwall">>/tmp/tmp/vhusbd
         fi
     fi
 }
@@ -40,3 +29,4 @@ stop() {
     kill -9 `pgrep vhusbd`
 #   echo "virtualhere stop">>/tmp/tmp/vhusbd
 }
+
