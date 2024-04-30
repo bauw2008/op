@@ -1,86 +1,127 @@
 <!DOCTYPE html>
 <!-- saved from url=(0014)about:internet -->
 <html lang="en">
-		<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#09c">
-<meta name="msapplication-tap-highlight" content="no">
-<meta name="msapplication-TileColor" content="#09c">
-<meta name="application-name" content="Alpha - LuCI">
-<meta name="apple-mobile-web-app-title" content="Alpha - LuCI">
-<link rel="stylesheet" href="/luci-static/alpha/style/style.css">
-<link rel="shortcut icon" href="luci-static/alpha/favicon.ico">
-<script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
-<script src="/luci-static/resources/cbi.js?v=git-22.339.35089-7af4a64"></script>
-
-
-<title>Alpha - Login Dulu</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#09c">
+    <meta name="msapplication-TileColor" content="#09c">
+    <meta name="application-name" content="Alpha - LuCI">
+    <meta name="apple-mobile-web-app-title" content="Alpha - LuCI">
+	<meta name="msapplication-tap-highlight" content="no">
+    <title>Alpha - Login Dulu</title>
+    <link rel="stylesheet" href="<%=media%>/style/style.css">
+    <link rel="shortcut icon" href="<%=media%>/favicon.ico">
+    <link rel="stylesheet" href="<%=media%>/landscape.css">
+	<script src="<%=media%>/js/jquery.min.js"></script>
+	<script src="<%=media%>/js/script.js"></script>
+	<script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
+	<script src="/luci-static/resources/cbi.js?v=git-22.339.35089-7af4a64"></script>
+	
 </head>
-		
-<body class="lang_en  node-main-login" data-page="" style="background-image:url('/luci-static/alpha/background/dashboard.png')">
-	<header>
-		<div class="fill">
-			<div class="container">
-				<span class="showSide"></span>
-				<img class="tengah" src="/luci-static/alpha/style/brand.png" />
-				<img class="bawah" src="/luci-static/alpha/style/indo-wrt.png" />
-				<span class="status" id="indicators"></span>
-			</div>
-		</div>
-	</header>
 
-		<script type="text/javascript" src="/luci-static/resources/promis.min.js?v=git-22.361.69894-438c598"></script>
-		<script type="text/javascript" src="/luci-static/resources/luci.js?v=git-22.361.69894-438c598"></script>
-		<script type="text/javascript">
-				L = new LuCI({"apply_rollback":90,"resource":"\/luci-static\/resources","media":"\/luci-static\/material","documentroot":"\/www","pollinterval":5,"apply_display":1.5,"requestpath":[],"ubuspath":"\/ubus\/","scriptname":"\/cgi-bin\/luci","dispatchpath":[],"apply_timeout":5,"apply_holdoff":4,"nodespec":{"satisfied":true,"action":{"type":"template","path":"admin_status\/index"},"order":1,"depends":{"acl":["luci-mod-status-index"]},"title":"Overview"}});
-		</script>
-<form method="post" action="/cgi-bin/luci"><div class="cbi-map"></div>
-<div class='box'>
-		<div class='box-form'>
-			<!-- <div class='box-login-tab'></div>
-			<div class='box-login-title'>
-				<div class='i i-login'></div><h2><div class="cbi-map-descr"></div>LOGIN</h2>
-			</div> -->
-			
-			<div class='box-login'>
-				<label class='checkbox'>
-				<form method="post" action="<%=pcdata(FULL_REQUEST_URI)%>">
-					<%- if fuser then %>
-						<div class="alert-message warning">
-							<p><%:Sandi gagal,silahkan ulangi.%></p>
-						</div>
-					<% end -%>
-				</label>
-				<div class='fieldset-body' id='login_form'>
-							<p class='field'>
-						<label for='user'>
-							<label class="cbi-value-title" for="luci_username">Username</label>
-								<input type="text" name="luci_username" id="luci_username" autocomplete="username" value="root" />
-							</div></label>
-						<span id='valida' class='i i-warning'></span>
-					</p>
-							<p class='field'>
-						<label for='pass'>
-							<label class="cbi-value-title" for="luci_password">Password</label>
-							<div class="cbi-value-field">
-								<input type="password" name="luci_password" id="luci_password" autocomplete="current-password"/>
-							</div></label>
-						<span id='valida' class='i i-close'></span>
-					</p>
-	
-						<label class='checkbox'>
-								Please Enter Username & Password.
-						</label>
-	
-							<input type='submit' id='do_login' value='LOGIN' title='Login' />
-				</div>
-			</div>
-		</div>
-		
+<header>
+    <div id="CrossFade">
+        <img src="<%=media%>/background/dashboard.png" alt="img">
+        <img src="<%=media%>/background/login.png" alt="img">
+		<img src="<%=media%>/background/3.png" alt="img">
+    </div>
+</header>
 
+    <div class="speaker"></div>
+    <audio loop id="player" autoplay type="audio/mpeg"></audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sound = document.getElementById("player");
+            sound.src = 'https://cdn.jsdelivr.net/gh/kkkidding/custom2@master/audio.ogg';
+
+            if (!sound.paused) {
+                document.querySelector('.speaker').classList.add('speakerplay');
+            }
+        });
+
+           if (/iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent)) {
+             var audio = document.querySelector("audio");
+             audio.autoplay = false;
+             audio.load();
+            }
+    </script>
 		
+    <form method="post" action="/cgi-bin/luci">
+        <div class='box'>
+            <div class='box-form'>
+                <div class='box-login'>
+                    <label class='checkbox'>
+                        <% if fuser then %>
+                            <div class="alert-message warning">
+                                <p><%: Sandi gagal, silahkan ulangi. %></p>
+                            </div>
+                        <% end %>
+                    </label>
+                    <div class='fieldset-body' id='login_form'>
+                        <p class='field'>
+                            <label for='luci_username'>Username</label>
+                            <input type="text" name="luci_username" id="luci_username" autocomplete="username" value="root" />
+                        </p>
+                        <p class='field'>
+                            <label for='luci_password'>Password</label>
+                            <input type="password" name="luci_password" id="luci_password" autocomplete="current-password" />
+                        </p>
+                        <label class='checkbox'>Please Enter Username & Password.</label>
+                        <input type='submit' id='do_login' value='LOGIN' title='Login' />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="<%=resource%>/promis.min.js"></script>
+    <script src="<%=resource%>/luci.js"></script>
+    <script>
+        var L = new LuCI({
+            "media": "media",
+            "apply_rollback": 90,
+            "resource": "/luci-static/resources",
+            "documentroot": "/www",
+            "pollinterval": 5,
+            "apply_display": 1.5,
+            "requestpath": [],
+            "ubuspath": "/ubus/",
+            "scriptname": "/cgi-bin/luci",
+            "dispatchpath": [],
+            "apply_timeout": 5,
+            "apply_holdoff": 4,
+            "nodespec": {
+                "satisfied": true,
+                "action": {
+                    "type": "template",
+                    "path": "admin_status/index"
+                },
+                "order": 1,
+                "depends": {
+                    "acl": ["luci-mod-status-index"]
+                },
+                "title": "Overview"
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.getElementById('luci_password');
+            if (input)
+                input.focus();
+        });
+    </script>
+	
+	<%+footer%>
+	
+	<% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/dashboard.png >/dev/null 2>&1) &") %>
+    <% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/login.png >/dev/null 2>&1) &") %>
+    <% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/3.png >/dev/null 2>&1) &") %>
+</div>
 </body>
 </html>

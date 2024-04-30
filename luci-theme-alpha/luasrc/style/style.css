@@ -23,6 +23,10 @@ body {
 	background-attachment: fixed;
 }
 
+/* 隐藏具有 .navbar.active 类的元素 */
+.navbar.active {
+    display: none; /* 或者 visibility: hidden; */
+}
 
 /*--------------------
 Text

@@ -96,19 +96,19 @@ statistics:
   interval: 5h
   enabled: true
 filters:
-  - enabled: false
-    url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
-    name: AdGuard DNS filter
-    id: 1628750870
   - enabled: true
-    url: https://anti-ad.net/easylist.txt
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_21.txt
     name: 'CHN: anti-AD'
-    id: 1628750871
+    id: 1714235336
   - enabled: true
-    url: https://agit.ai/bauw/y-dns/raw/branch/master/y-dns.txt
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt
+    name: AWAvenue Ads Rule
+    id: 1714235337
+  - enabled: true
+    url: https://gitee.com/bauw/dns/raw/master/y.txt
     name: y-dns
     id: 1698292796
-  - enabled: true
+  - enabled: false
     url: https://raw.githubusercontent.com/maxiaof/github-hosts/master/hosts
     name: Github-hosts
     id: 1710259841
@@ -116,10 +116,6 @@ filters:
     url: https://raw.hellogithub.com/hosts
     name: GitHub-DNS
     id: 1705419896
-  - enabled: false
-    url: https://cdn.jsdelivr.net/gh/TG-Twilight/AWAvenue-Ads-Rule/AWAvenue-Ads-Rule.txt
-    name: AWAvenue-Adblock-Rule
-    id: 1704894746
 whitelist_filters: []
 user_rules:
   - ""
