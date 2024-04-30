@@ -1109,7 +1109,7 @@
  }
 
  #maincontent>.container {
- 	margin: 0 2rem 1rem;
+	margin: 0 2rem 1rem;
  }
 
  ul {
@@ -1127,15 +1127,16 @@
  }
 
  h2 {
- 	font-size: 1.8rem;
- 	font-family: "Quicksand-Bold";
- 	letter-spacing: 5px;
- 	text-align: center;
- 	padding-bottom: 10px;
- 	margin: 2rem 0 0;
- 	color: #ffffff;
- 	animation-duration: 1s;
- 	animation-name: down;
+ 	/* font-size: 1.8rem;*/
+ 	/* font-family: "Quicksand-Bold";*/
+ 	/* letter-spacing: 5px;*/
+ 	/* text-align: center;*/
+ 	/* padding-bottom: 10px;*/
+ 	/* margin: 2rem 0 0;*/
+ 	/* color: #ffffff;*/
+ 	/* animation-duration: 1s;*/
+ 	/* animation-name: down;*/
+	display: none;
  }
 
  h3 {
@@ -3133,7 +3134,7 @@
  	.main>.main-left>.nav>.slide>.menu,
  	.main>.main-left>.nav>li>[data-title="Logout"],
   .main>.main-left>.nav>li>[data-title="iStore"] {
- 		font-size: 1rem;
+ 		font-size: 1.1rem;
  		color: #fff;
  	}
 
