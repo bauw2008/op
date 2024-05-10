@@ -115,13 +115,21 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
 
       if [ "$?" == "0" ]; then
          LOG_OUT "【"$CORE_TYPE"】Core Download Successful, Start Update..."
+<<<<<<< HEAD
 	       case $CORE_TYPE in
+=======
+	      case $CORE_TYPE in
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
          "TUN")
             [ -s "/tmp/clash_tun.gz" ] && {
                gzip -d /tmp/clash_tun.gz >/dev/null 2>&1
                rm -rf /tmp/clash_tun.gz >/dev/null 2>&1
                rm -rf "$tun_core_path" >/dev/null 2>&1
                chmod 4755 /tmp/clash_tun >/dev/null 2>&1
+<<<<<<< HEAD
+=======
+               /tmp/clash_tun -v >/dev/null 2>&1
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
             }
 			   ;;
          "Meta")
@@ -131,6 +139,10 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
                mv /tmp/clash /tmp/clash_meta >/dev/null 2>&1
                rm -rf /tmp/clash_meta.tar.gz >/dev/null 2>&1
                chmod 4755 /tmp/clash_meta >/dev/null 2>&1
+<<<<<<< HEAD
+=======
+               /tmp/clash_meta -v >/dev/null 2>&1
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
             }
 			   ;;
 			   *)
@@ -139,10 +151,18 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
                tar zxvf /tmp/clash.tar.gz -C /tmp
                rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
                chmod 4755 /tmp/clash >/dev/null 2>&1
+<<<<<<< HEAD
             }
          esac
          if [ "$?" != "0" ]; then
             LOG_OUT "【"$CORE_TYPE"】Core Update Failed. Please Make Sure Enough Flash Memory Space And Try Again!"
+=======
+               /tmp/clash -v >/dev/null 2>&1
+            }
+         esac
+         if [ "$?" != "0" ]; then
+            LOG_OUT "【"$CORE_TYPE"】Core Update Failed. Please Make Sure Enough Flash Memory Space or Selected Correct Core Platform And Try Again!"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
             case $CORE_TYPE in
             "TUN")
                rm -rf /tmp/clash_tun >/dev/null 2>&1
@@ -157,6 +177,7 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
             exit 0
          fi
 
+<<<<<<< HEAD
 			   case $CORE_TYPE in
          "TUN")
 			      mv /tmp/clash_tun "$tun_core_path" >/dev/null 2>&1
@@ -167,6 +188,18 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
          *)
                mv /tmp/clash "$dev_core_path" >/dev/null 2>&1
 			   esac
+=======
+         case $CORE_TYPE in
+         "TUN")
+            mv /tmp/clash_tun "$tun_core_path" >/dev/null 2>&1
+         ;;
+         "Meta")
+            mv /tmp/clash_meta "$meta_core_path" >/dev/null 2>&1
+         ;;
+         *)
+            mv /tmp/clash "$dev_core_path" >/dev/null 2>&1
+         esac
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 			   
          if [ "$?" == "0" ]; then
             LOG_OUT "【"$CORE_TYPE"】Core Update Successful!"
@@ -188,7 +221,11 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
          SLOG_CLEAN
       fi
    else
+<<<<<<< HEAD
       LOG_OUT "No Compiled Version Selected, Please Select In Global Settings And Try Again!"
+=======
+      LOG_OUT "No Compiled Version Selected, Please Select In Update Page And Try Again!"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       SLOG_CLEAN
    fi
 else

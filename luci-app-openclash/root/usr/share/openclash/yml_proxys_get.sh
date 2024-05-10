@@ -1027,7 +1027,12 @@ do
       }.join
    end;
 
+<<<<<<< HEAD
    if '$server_type' == 'hysteria' or '$server_type' == 'hysteria2' then
+=======
+   if '$server_type' == 'hysteria' then
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_protocol
       if Value['proxies'][$count].key?('protocol') then
@@ -1035,7 +1040,25 @@ do
          system(hysteria_protocol)
       end
       }.join
+<<<<<<< HEAD
 
+=======
+   end;
+
+   if '$server_type' == 'hysteria2' then
+      #hysteria2
+      Thread.new{
+      #hysteria2_protocol
+      if Value['proxies'][$count].key?('protocol') then
+         hysteria2_protocol = '${uci_set}hysteria2_protocol=\"' + Value['proxies'][$count]['protocol'].to_s + '\"'
+         system(hysteria2_protocol)
+      end
+      }.join
+   end;
+
+   if '$server_type' == 'hysteria' or '$server_type' == 'hysteria2' then
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_up
       if Value['proxies'][$count].key?('up') then
@@ -1044,6 +1067,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_down
       if Value['proxies'][$count].key?('down') then
@@ -1052,6 +1079,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #skip-cert-verify
       if Value['proxies'][$count].key?('skip-cert-verify') then
@@ -1060,6 +1091,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #sni
       if Value['proxies'][$count].key?('sni') then
@@ -1068,6 +1103,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #alpn
       if Value['proxies'][$count].key?('alpn') then
@@ -1085,6 +1124,10 @@ do
       end;
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #recv_window_conn
       if Value['proxies'][$count].key?('recv-window-conn') then
@@ -1093,6 +1136,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #recv_window
       if Value['proxies'][$count].key?('recv-window') then
@@ -1101,6 +1148,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_obfs
       if Value['proxies'][$count].key?('obfs') then
@@ -1109,6 +1160,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_obfs_password
       if Value['proxies'][$count].key?('obfs-password') then
@@ -1117,6 +1172,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_auth
       if Value['proxies'][$count].key?('auth') then
@@ -1125,6 +1184,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_auth_str
       if Value['proxies'][$count].key?('auth-str') then
@@ -1133,6 +1196,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_ca
       if Value['proxies'][$count].key?('ca') then
@@ -1141,6 +1208,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hysteria_ca_str
       if Value['proxies'][$count].key?('ca-str') then
@@ -1149,6 +1220,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #disable_mtu_discovery
       if Value['proxies'][$count].key?('disable-mtu-discovery') then
@@ -1157,6 +1232,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #fast_open
       if Value['proxies'][$count].key?('fast-open') then
@@ -1165,6 +1244,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #fingerprint
       if Value['proxies'][$count].key?('fingerprint') then
@@ -1173,6 +1256,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #ports
       if Value['proxies'][$count].key?('ports') then
@@ -1181,6 +1268,10 @@ do
       end
       }.join
 
+<<<<<<< HEAD
+=======
+      #hysteria  hysteria2
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
       Thread.new{
       #hop-interval
       if Value['proxies'][$count].key?('hop-interval') then
@@ -1573,4 +1664,8 @@ SLOG_CLEAN
 rm -rf /tmp/match_servers.list 2>/dev/null
 rm -rf /tmp/match_provider.list 2>/dev/null
 rm -rf /tmp/yaml_other_group.yaml 2>/dev/null
+<<<<<<< HEAD
 del_lock
+=======
+del_lock
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea

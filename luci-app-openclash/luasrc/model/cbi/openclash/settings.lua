@@ -256,7 +256,11 @@ if op_mode == "redir-host" then
 	o.default = 0
 else
 	o = s:taboption("traffic_control", Flag, "china_ip_route", translate("China IP Route"))
+<<<<<<< HEAD
 	o.description = translate("Bypass The China Network Flows, Improve Performance, Depend on Dnsmasq")
+=======
+	o.description = translate("Bypass The China Network Flows, Improve Performance, If Inaccessibility on Bypass Gateway, Try to Enable Bypass Gateway Compatible Option, Depend on Dnsmasq")
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 	o.default = 0
 	o:depends("enable_redirect_dns", "1")
 	o:depends("enable_redirect_dns", "0")

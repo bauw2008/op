@@ -1,10 +1,18 @@
 #!/bin/bash
 . /lib/functions.sh
 
+<<<<<<< HEAD
+=======
+[ -e "/etc/config/ucitrack" ] && {
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 uci -q delete ucitrack.@openclash[-1]
 uci -q add ucitrack openclash
 uci -q set ucitrack.@openclash[-1].init=openclash
 uci -q commit ucitrack
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 uci -q delete firewall.openclash
 uci -q set firewall.openclash=include
 uci -q set firewall.openclash.type=script
@@ -196,6 +204,7 @@ sed -i '/.*kB maximum content size*/c\export let HTTP_MAX_CONTENT = 1024*10240;	
 
 /etc/init.d/uhttpd restart >/dev/null 2>&1
 
+<<<<<<< HEAD
 #set tun interface firewall rule
 add_utun_firewall_zone()
 {
@@ -219,5 +228,7 @@ uci -q commit network
 config_load "firewall"
 config_foreach add_utun_firewall_zone "zone"
 
+=======
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 rm -f /tmp/luci-indexcache
 exit 0

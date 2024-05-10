@@ -173,8 +173,13 @@ msgstr "实验性：绕过中国大陆 IPv6"
 msgid "Bypass The China Network Flows, Improve Performance"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能"
 
+<<<<<<< HEAD
 msgid "Bypass The China Network Flows, Improve Performance, Depend on Dnsmasq"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，此功能依赖于 Dnsmasq"
+=======
+msgid "Bypass The China Network Flows, Improve Performance, If Inaccessibility on Bypass Gateway, Try to Enable Bypass Gateway Compatible Option, Depend on Dnsmasq"
+msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，如旁路由遇到无法访问，请尝试启用旁路由兼容模式，此功能依赖于 Dnsmasq"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 
 msgid "Log Level"
 msgstr "日志等级"
@@ -726,7 +731,11 @@ msgstr "协议"
 msgid "Protocol param(optional)"
 msgstr "传输协议参数（可选）"
 
+<<<<<<< HEAD
 msgid "Obfs"
+=======
+msgid "obfs"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgstr "混淆插件"
 
 msgid "Obfs param(optional)"
@@ -765,6 +774,39 @@ msgstr "策略组配置（使用一键生成配置文件功能时无需设置）
 msgid "Proxies"
 msgstr "服务器节点配置"
 
+<<<<<<< HEAD
+=======
+msgid "Enable Port Hopping"
+msgstr "启用端口跃迁"
+
+msgid "Port Range"
+msgstr "端口范围值"
+
+msgid "Uplink Capacity(Default:Mbps)"
+msgstr "上行链路容量（默认：Mbps）"
+
+msgid "Downlink Capacity(Default:Mbps)"
+msgstr "下行链路容量（默认：Mbps）"
+
+msgid "Hop Interval (Unit:second)"
+msgstr "跳跃间隔（单位：秒）"
+
+msgid "Obfs"
+msgstr "混淆插件"
+
+msgid "Obfs param (optional)"
+msgstr "混淆参数（可选）"
+
+msgid "obfs-password"
+msgstr "混淆密码"
+
+msgid "Enable Transport Protocol Settings"
+msgstr "启用传输协议设置"
+
+msgid "Hysterir QUIC parameters"
+msgstr "QUIC 参数"
+
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgid "Edit Rule Providers"
 msgstr "编辑规则集配置"
 
@@ -1425,12 +1467,15 @@ msgstr "页面已切换为 Redir-Host 模式！"
 msgid "IP Address"
 msgstr "IP 地址"
 
+<<<<<<< HEAD
 msgid "Mainland"
 msgstr "国内"
 
 msgid "Abroad"
 msgstr "国外"
 
+=======
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgid "Website Access Check"
 msgstr "网站访问检查"
 
@@ -1641,11 +1686,19 @@ msgstr "版本内核更新失败，请检查网络或稍后再试！"
 msgid "Core Update Successful!"
 msgstr "版本内核更新成功！"
 
+<<<<<<< HEAD
 msgid "Core Update Failed. Please Make Sure Enough Flash Memory Space And Try Again!"
 msgstr "版本内核更新失败，请确认设备闪存空间足够后再试！"
 
 msgid "No Compiled Version Selected, Please Select In Global Settings And Try Again!"
 msgstr "未选择编译版本，请到全局设置中选择后再试！"
+=======
+msgid "Core Update Failed. Please Make Sure Enough Flash Memory Space or Selected Correct Core Platform And Try Again!"
+msgstr "版本内核更新失败，请确认设备闪存空间足够或内核平台正确后再试！"
+
+msgid "No Compiled Version Selected, Please Select In Update Page And Try Again!"
+msgstr "未选择编译版本，请到升级页面选择后再试！"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 
 msgid "Core Has Not Been Updated, Stop Continuing Operation!"
 msgstr "版本内核没有更新，停止继续操作！"
@@ -3496,4 +3549,11 @@ msgid "Skip Proxy Address"
 msgstr "绕过服务器地址"
 
 msgid "Bypassing Server Addresses And Preventing Duplicate Proxies"
+<<<<<<< HEAD
 msgstr "绕过服务器地址，防止重复代理"
+=======
+msgstr "绕过服务器地址，防止重复代理"
+
+msgid "Warning: Unsupported format, Proxies Address Skip Function Ignore Proxy-providers File"
+msgstr "警告：不支持的格式，绕过代理服务器地址功能已忽略代理集文件"
+>>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
