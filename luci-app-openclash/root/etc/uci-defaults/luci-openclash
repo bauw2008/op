@@ -1,18 +1,12 @@
 #!/bin/bash
 . /lib/functions.sh
 
-<<<<<<< HEAD
-=======
 [ -e "/etc/config/ucitrack" ] && {
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 uci -q delete ucitrack.@openclash[-1]
 uci -q add ucitrack openclash
 uci -q set ucitrack.@openclash[-1].init=openclash
 uci -q commit ucitrack
-<<<<<<< HEAD
-=======
 }
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 uci -q delete firewall.openclash
 uci -q set firewall.openclash=include
 uci -q set firewall.openclash.type=script
@@ -204,31 +198,5 @@ sed -i '/.*kB maximum content size*/c\export let HTTP_MAX_CONTENT = 1024*10240;	
 
 /etc/init.d/uhttpd restart >/dev/null 2>&1
 
-<<<<<<< HEAD
-#set tun interface firewall rule
-add_utun_firewall_zone()
-{
-	local section="$1"
-	local name network
-	config_get "name" "$section" "name" ""
-	config_get "network" "$section" "network" ""
-	if [ "$name" = "lan" ] && [ -z "$(echo $network |grep utun)" ]; then
-		uci -q set firewall."$section".network="$network utun"
-		uci -q commit firewall
-	fi
-}
-
-uci -q set network.utun=interface
-uci -q set network.utun.proto=none
-uci -q set network.utun.ifname=utun
-uci -q set network.utun.device=utun
-uci -q set network.utun.auto='0'
-uci -q commit network
-
-config_load "firewall"
-config_foreach add_utun_firewall_zone "zone"
-
-=======
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 rm -f /tmp/luci-indexcache
 exit 0

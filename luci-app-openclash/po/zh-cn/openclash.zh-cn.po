@@ -173,13 +173,8 @@ msgstr "实验性：绕过中国大陆 IPv6"
 msgid "Bypass The China Network Flows, Improve Performance"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能"
 
-<<<<<<< HEAD
-msgid "Bypass The China Network Flows, Improve Performance, Depend on Dnsmasq"
-msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，此功能依赖于 Dnsmasq"
-=======
 msgid "Bypass The China Network Flows, Improve Performance, If Inaccessibility on Bypass Gateway, Try to Enable Bypass Gateway Compatible Option, Depend on Dnsmasq"
 msgstr "启用后中国大陆流量将不再经过内核，提升系统性能，如旁路由遇到无法访问，请尝试启用旁路由兼容模式，此功能依赖于 Dnsmasq"
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 
 msgid "Log Level"
 msgstr "日志等级"
@@ -731,11 +726,7 @@ msgstr "协议"
 msgid "Protocol param(optional)"
 msgstr "传输协议参数（可选）"
 
-<<<<<<< HEAD
-msgid "Obfs"
-=======
 msgid "obfs"
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgstr "混淆插件"
 
 msgid "Obfs param(optional)"
@@ -774,8 +765,6 @@ msgstr "策略组配置（使用一键生成配置文件功能时无需设置）
 msgid "Proxies"
 msgstr "服务器节点配置"
 
-<<<<<<< HEAD
-=======
 msgid "Enable Port Hopping"
 msgstr "启用端口跃迁"
 
@@ -806,7 +795,6 @@ msgstr "启用传输协议设置"
 msgid "Hysterir QUIC parameters"
 msgstr "QUIC 参数"
 
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgid "Edit Rule Providers"
 msgstr "编辑规则集配置"
 
@@ -1431,6 +1419,9 @@ msgstr "还原默认配置"
 msgid "One Click Check Update"
 msgstr "一键检查更新"
 
+msgid "One Click Check Update With CDN"
+msgstr "使用CDN一键检查更新"
+
 msgid "Failed to get the latest version. Please try again later!"
 msgstr "最新版本获取失败，请稍后再试！"
 
@@ -1467,15 +1458,6 @@ msgstr "页面已切换为 Redir-Host 模式！"
 msgid "IP Address"
 msgstr "IP 地址"
 
-<<<<<<< HEAD
-msgid "Mainland"
-msgstr "国内"
-
-msgid "Abroad"
-msgstr "国外"
-
-=======
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 msgid "Website Access Check"
 msgstr "网站访问检查"
 
@@ -1686,19 +1668,11 @@ msgstr "版本内核更新失败，请检查网络或稍后再试！"
 msgid "Core Update Successful!"
 msgstr "版本内核更新成功！"
 
-<<<<<<< HEAD
-msgid "Core Update Failed. Please Make Sure Enough Flash Memory Space And Try Again!"
-msgstr "版本内核更新失败，请确认设备闪存空间足够后再试！"
-
-msgid "No Compiled Version Selected, Please Select In Global Settings And Try Again!"
-msgstr "未选择编译版本，请到全局设置中选择后再试！"
-=======
 msgid "Core Update Failed. Please Make Sure Enough Flash Memory Space or Selected Correct Core Platform And Try Again!"
 msgstr "版本内核更新失败，请确认设备闪存空间足够或内核平台正确后再试！"
 
 msgid "No Compiled Version Selected, Please Select In Update Page And Try Again!"
 msgstr "未选择编译版本，请到升级页面选择后再试！"
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
 
 msgid "Core Has Not Been Updated, Stop Continuing Operation!"
 msgstr "版本内核没有更新，停止继续操作！"
@@ -3549,11 +3523,31 @@ msgid "Skip Proxy Address"
 msgstr "绕过服务器地址"
 
 msgid "Bypassing Server Addresses And Preventing Duplicate Proxies"
-<<<<<<< HEAD
-msgstr "绕过服务器地址，防止重复代理"
-=======
 msgstr "绕过服务器地址，防止重复代理"
 
 msgid "Warning: Unsupported format, Proxies Address Skip Function Ignore Proxy-providers File"
 msgstr "警告：不支持的格式，绕过代理服务器地址功能已忽略代理集文件"
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
+
+msgid "Choose CDN For Downloading:"
+msgstr "请在下方选择一个 CDN 地址进行加速下载："
+
+msgid "Custom Your CDN URL"
+msgstr "自定义链接地址"
+
+msgid "Type CDN URL, Format Like"
+msgstr "输入链接地址，格式请参考"
+
+msgid "Please enter a valid URL!"
+msgstr "请参考示例输入正确的链接地址！"
+
+msgid "WAN Interface Name"
+msgstr "WAN 接口名称"
+
+msgid "Select WAN Interface Name For The Intranet Allowed"
+msgstr "为仅允许内网指定正确的 WAN 接口名称"
+
+msgid "LAN Interface Name"
+msgstr "LAN 接口名称"
+
+msgid "Select LAN Interface Name"
+msgstr "指定正确的 LAN 接口名称"

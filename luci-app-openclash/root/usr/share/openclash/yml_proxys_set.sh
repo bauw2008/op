@@ -246,10 +246,7 @@ yml_servers_set()
    config_get "vless_flow" "$section" "vless_flow" ""
    config_get "http_headers" "$section" "http_headers" ""
    config_get "hysteria_protocol" "$section" "hysteria_protocol" ""
-<<<<<<< HEAD
-=======
    config_get "hysteria2_protocol" "$section" "hysteria2_protocol" ""
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
    config_get "hysteria_up" "$section" "hysteria_up" ""
    config_get "hysteria_down" "$section" "hysteria_down" ""
    config_get "hysteria_alpn" "$section" "hysteria_alpn" ""
@@ -983,8 +980,6 @@ cat >> "$SERVER_FILE" <<-EOF
     fingerprint: "$fingerprint"
 EOF
       fi
-<<<<<<< HEAD
-=======
       if [ -n "$ports" ]; then
 cat >> "$SERVER_FILE" <<-EOF
     ports: $ports
@@ -1000,7 +995,6 @@ cat >> "$SERVER_FILE" <<-EOF
     hop-interval: $hop_interval
 EOF
       fi
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
    fi
 
 #vless

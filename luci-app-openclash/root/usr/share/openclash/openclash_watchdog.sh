@@ -364,13 +364,10 @@ fi
                            path = i['path']
                         end;
                         if File::exist?(path) then
-<<<<<<< HEAD
-=======
                            if YAML.load_file(path).class == String then
                               puts '${LOGTIME} Warning: Unsupported format, Proxies Address Skip Function Ignore Proxy-providers File【' + path + '】';
                               next
                            end;
->>>>>>> 2449e215c99973ac9d4970c83b63a5852827a5ea
                            if YAML.load_file(path).key?('proxies') and not YAML.load_file(path)['proxies'].nil? then
                               YAML.load_file(path)['proxies'].each do
                                  |j|
