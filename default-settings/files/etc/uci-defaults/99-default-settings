@@ -26,9 +26,9 @@ uci set network.lan.ipaddr='10.0.0.1'
 uci commit network
 
 #设置dhcp
-uci -q set dhcp.lan.ra='hybrid'
-uci -q set dhcp.lan.ndp='hybrid'
-uci -q set dhcp.lan.dhcpv6='hybrid'
+#uci -q set dhcp.lan.ra='hybrid'
+#uci -q set dhcp.lan.ndp='hybrid'
+#uci -q set dhcp.lan.dhcpv6='hybrid'
 uci -q set dhcp.lan.force='1'
 uci commit dhcp
 
@@ -51,7 +51,7 @@ sed -i "s/git-.*-\(.*\)/git-\1/g" /usr/lib/lua/luci/version.lua
 #sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 #echo "DISTRIB_REVISION='R22.4.1'" >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
-echo "DISTRIB_DESCRIPTION='OpenWrt 23.05'" >> /etc/openwrt_release
+echo "DISTRIB_DESCRIPTION='OpenWrt main'" >> /etc/openwrt_release
 
 #设置ipk菜单位置
 #sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
