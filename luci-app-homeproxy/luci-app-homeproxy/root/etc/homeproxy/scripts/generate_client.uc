@@ -102,9 +102,10 @@ if (match(proxy_mode), /tun/) {
 	tun_addr4 = uci.get(uciconfig, uciinfra, 'tun_addr4') || '172.19.0.1/30';
 	tun_addr6 = uci.get(uciconfig, uciinfra, 'tun_addr6') || 'fdfe:dcba:9876::1/126';
 	tun_mtu = uci.get(uciconfig, uciinfra, 'tun_mtu') || '9000';
-	tun_gso = uci.get(uciconfig, uciinfra, 'tun_gso') || '0';
+	tun_gso = '0';
 	tcpip_stack = 'system';
 	if (routing_mode === 'custom') {
+		tun_gso = uci.get(uciconfig, uciroutingsetting, 'tun_gso') || '0';
 		tcpip_stack = uci.get(uciconfig, uciroutingsetting, 'tcpip_stack') || 'system';
 		endpoint_independent_nat = uci.get(uciconfig, uciroutingsetting, 'endpoint_independent_nat');
 	}
@@ -651,7 +652,6 @@ if (routing_mode === 'custom') {
 			path: HP_DIR + '/cache.db',
 			store_rdrc: (cache_file_store_rdrc === '1') || null,
 			rdrc_timeout: cache_file_rdrc_timeout
-
 		}
 	};
 }
