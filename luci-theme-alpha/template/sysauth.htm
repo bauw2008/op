@@ -11,7 +11,7 @@
     <meta name="application-name" content="Alpha - LuCI">
     <meta name="apple-mobile-web-app-title" content="Alpha - LuCI">
 	<meta name="msapplication-tap-highlight" content="no">
-    <title>Alpha - Login Dulu</title>
+    <title>Alpha - Login</title>
     <link rel="stylesheet" href="<%=media%>/style/style.css">
     <link rel="shortcut icon" href="<%=media%>/favicon.ico">
     <link rel="stylesheet" href="<%=media%>/landscape.css">
@@ -36,7 +36,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var sound = document.getElementById("player");
-            sound.src = 'https://cdn.jsdelivr.net/gh/kkkidding/custom2@master/audio.ogg';
+            sound.src = 'https://cdn.jsdelivr.net/gh/bauw2008/bauw/media/audio.ogg';
 
             if (!sound.paused) {
                 document.querySelector('.speaker').classList.add('speakerplay');
@@ -57,7 +57,7 @@
                     <label class='checkbox'>
                         <% if fuser then %>
                             <div class="alert-message warning">
-                                <p><%: Sandi gagal, silahkan ulangi. %></p>
+                                <p><%:Wrong Password. Try Again.%></p>
                             </div>
                         <% end %>
                     </label>
@@ -125,3 +125,4 @@
 </div>
 </body>
 </html>
+

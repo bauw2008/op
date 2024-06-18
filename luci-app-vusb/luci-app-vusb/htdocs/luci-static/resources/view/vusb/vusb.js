@@ -45,7 +45,7 @@ return view.extend({
 	
     render: function() {
 		var m, s, o;
-        m = new form.Map('vusb', _('VirtualHere USB Server'), _('配置虚拟USB服务。将网络设备与本地主机上的USB设备进行映射。<a id="client-software-link" href="http://www.virtualhere.com/usb_client_software">客户端下载</a>，并根据本地主机架构进行安装。<br>注册码（x86、arm64无效）：xxxxxxxxxxxx，999，MCACDkn0jww6R5WOIjFqU/apAg4Um+mDkU2TBcC7fA1FrA=='));
+        m = new form.Map('vusb', _('VirtualHere USB Server'), _('配置虚拟USB服务。将网络设备与本地主机上的USB设备进行映射。<a href="https://github.com/bauw2008/op/tree/master/luci-app-vusb">仓库地址</a>，<a id="client-software-link" href="http://www.virtualhere.com/usb_client_software">客户端下载</a>，并根据本地主机架构进行安装。<br>注册码（x86、arm64无效）：xxxxxxxxxxxx，999，MCACDkn0jww6R5WOIjFqU/apAg4Um+mDkU2TBcC7fA1FrA=='));
         
         // 添加状态显示区域
         s = m.section(form.TypedSection);
