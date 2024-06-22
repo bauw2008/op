@@ -1859,7 +1859,7 @@
  	min-height: 20px;
  	white-space: nowrap;
  	text-overflow: ellipsis;
- 	padding: 0.3rem;
+     padding: 0.3rem 1rem 0.3rem 1rem;
  }
 
  .cbi-dropdown>ul>li[display]:not([display="0"]) {
@@ -2092,6 +2092,7 @@
 
  .spinning {
  	position: relative;
+	align-items: center;
  	padding-left: 32px !important;
  	color: #fff;
  }
@@ -2107,7 +2108,6 @@
  	animation: anim-rotate 2s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
  	background: url(./icon/loading.svg) no-repeat center;
  	background-size: 20px;
- }
  }
 
  .left,
@@ -3608,5 +3608,6 @@
  		background: #424242;
  	}
  }
+
 
 
