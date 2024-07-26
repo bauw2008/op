@@ -1,0 +1,8 @@
+
+config adguardhome 'config'
+	option enabled '0'
+	option workdir '/var/adguardhome'
+	option web_username 'root'
+	option web_password 'root'
+
+
