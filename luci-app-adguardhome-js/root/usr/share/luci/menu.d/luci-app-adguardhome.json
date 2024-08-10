@@ -1,4 +1,3 @@
-
 {
     "admin/services/adguardhome": {
         "title": "AdGuard Home",
@@ -39,4 +38,3 @@
         }
     }
 }
-

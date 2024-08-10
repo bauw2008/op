@@ -24,6 +24,7 @@ return view.extend({
 	},
 	urlmaker: function (host, port, tls_flag) {
 		var proto = tls_flag ? 'https://' : 'http://';
+		var host = window.location.hostname; // 使用当前页面的主机名
 		return proto + host + ':' + port + '/';
 	},
 	render_status_table: function (status, agh_config) {
@@ -33,7 +34,7 @@ return view.extend({
 		// Take a hint from the base LuCI module for the Overview page,
 		// declare the fields and use a loop to build the tabular status view.
 		// Written out as key/value pairs, but it's just an iterable of elements.
-		const weburl = this.urlmaker(agh_config.bind_host, status.http_port, agh_config.tls
+		const weburl = this.urlmaker(status.http_port, agh_config.tls
 			.enabled);
 		const listen_addresses = L.isObject(status.dns_addresses) ? status.dns_addresses.join(
 			', ') : _('Not found');

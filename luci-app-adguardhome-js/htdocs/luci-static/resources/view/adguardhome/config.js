@@ -1,4 +1,3 @@
-
 'use strict';
 'require form';
 'require view';
@@ -40,4 +39,3 @@ return view.extend({
 		return m.render();
 	}
 })
-
