@@ -65,7 +65,7 @@ return view.extend({
         var m, s, o;
 
         // 主表单 Map
-        m = new form.Map('turboacc', _('Turbo ACC Center'),
+        m = new form.Map('turboacc', _('Turbo ACC Acceleration Settings'),
             _('Turbo ACC Acceleration Settings'));
 
         // 状态 Section
@@ -92,40 +92,40 @@ return view.extend({
         };
 
         // 配置 Section
-        s = m.section(form.NamedSection, 'config', 'turboacc', _('Turbo ACC Configuration'));
+        s = m.section(form.NamedSection, 'config', 'turboacc', _(''));
         s.addremove = false;
         s.anonymous = true;
 
         // 软件流量加速开关
         o = s.option(form.Flag, 'sw_flow', _('Software flow offloading'),
             _('Software based offloading for routing/NAT'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 		
 		// 硬件流量加速开关, 依赖于 sw_flow 的启用状态
         o = s.option(form.Flag, 'hw_flow', _('Hardware flow offloading'),
             _('Requires hardware NAT support, implemented at least for mt762x'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 		o.depends('sw_flow', '1');  // 当 sw_flow 被启用时显示
 
         // o = s.option(form.Flag, 'sfe_flow', _('Shortcut-FE flow offloading'),
         // _('Shortcut-FE based offloading for routing/NAT'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 
         // o = s.option(form.Flag, 'hw_wed', _('MTK WED WO offloading'),
         //   _('Requires hardware support, implemented at least for Filogic 8x0'));
-        // o.default = '0'; // 配置文件中的默认值
+        // o.default = '0'; 
 		
         o = s.option(form.Flag, 'fullcone_nat', _('FullCone NAT'),
             _('Using FullCone NAT can improve gaming performance effectively'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 
         o = s.option(form.Flag, 'fullcone6', _('IPv6 Full Cone NAT'),
             _('Enabling IPv6 Full Cone NAT adds an extra layer of NAT to IPv6. In IPv6, if you obtain an IPv6 prefix through IPv6 Prefix Delegation, each device can be assigned a public IPv6 address, eliminating the need for IPv6 Full Cone NAT.'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 
         o = s.option(form.Flag, 'bbr_cca', _('BBR CCA'),
             _('Using BBR CCA can improve TCP network performance effectively'));
-        o.default = '0'; // 配置文件中的默认值
+        o.default = '0'; 
 
         // 返回渲染的 Map
         return m.render();

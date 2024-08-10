@@ -99,6 +99,10 @@ grep -q "uwsgi_read_timeout" /etc/nginx/conf.d/luci.locations 2>/dev/null ||
 sed -i "s/client_max_body_size 128/client_max_body_size 256/" /etc/nginx/uci.conf.template
 sed -i "s/large_client_header_buffers 2 1k/large_client_header_buffers 4 512k/" /etc/nginx/uci.conf.template
 
+#禁用 AdGuardHome
+/etc/init.d/adguardhome stop
+/etc/init.d/adguardhome disable
+
 #dnsmasq日志记录
 #sed -i '/log-facility/d' /etc/dnsmasq.conf
 #echo 'log-facility=/dev/null' >> /etc/dnsmasq.conf

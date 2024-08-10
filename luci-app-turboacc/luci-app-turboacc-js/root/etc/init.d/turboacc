@@ -1,8 +1,9 @@
 #!/bin/sh /etc/rc.common
 
-USE_PROCD=1
 START=90
 STOP=10
+
+USE_PROCD=1
 
 # 初始化配置
 inital_conf() {
@@ -73,7 +74,7 @@ start_service() {
 
 	procd_open_instance
 	procd_set_param command
-	procd_set_param respawn 3600 10 60
+	procd_set_param respawn
 	procd_close_instance
 }
 
