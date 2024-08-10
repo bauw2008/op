@@ -66,7 +66,7 @@ return view.extend({
 
         // 主表单 Map
         m = new form.Map('turboacc', _('Turbo ACC Acceleration Settings'),
-            _('Turbo ACC Acceleration Settings'));
+            _('Opensource Flow Offloading driver (Fast Path or Hardware NAT)'));
 
         // 状态 Section
         s = m.section(form.TypedSection, 'status', _('Running Status'));

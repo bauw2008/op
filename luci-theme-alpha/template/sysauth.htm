@@ -1,55 +1,48 @@
 <!DOCTYPE html>
-<!-- saved from url=(0014)about:internet -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#09c">
-    <meta name="msapplication-TileColor" content="#09c">
-    <meta name="application-name" content="Alpha - LuCI">
-    <meta name="apple-mobile-web-app-title" content="Alpha - LuCI">
-	<meta name="msapplication-tap-highlight" content="no">
     <title>Alpha - Login</title>
     <link rel="stylesheet" href="<%=media%>/style/style.css">
+    <link rel="stylesheet" href="<%=media%>/style/landscape.css"> <!-- 引入 landscape.css -->
     <link rel="shortcut icon" href="<%=media%>/favicon.ico">
-    <link rel="stylesheet" href="<%=media%>/landscape.css">
-	<script src="<%=media%>/js/jquery.min.js"></script>
-	<script src="<%=media%>/js/script.js"></script>
-	<script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
-	<script src="/luci-static/resources/cbi.js?v=git-22.339.35089-7af4a64"></script>
-	
+    <script src="<%=media%>/js/jquery.min.js"></script> <!-- 保持对 jQuery 的引用 -->
+    <script src="<%=media%>/js/script.js"></script> <!-- 引入 script.js -->
+    <script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
+    <script src="/luci-static/resources/cbi.js?v=git-22.339.35089-7af4a64"></script>
 </head>
-
-<header>
-    <div id="CrossFade">
-        <img src="<%=media%>/background/dashboard.png" alt="img">
-        <img src="<%=media%>/background/login.png" alt="img">
-		<img src="<%=media%>/background/3.png" alt="img">
-    </div>
-</header>
+<body>
+    <header>
+        <div id="CrossFade">
+            <img src="<%=media%>/background/dashboard.png" alt="img">
+            <img src="<%=media%>/background/login.png" alt="img">
+            <img src="<%=media%>/background/3.png" alt="img">
+        </div>
+    </header>
 
     <div class="speaker"></div>
-    <audio loop id="player" autoplay type="audio/mpeg"></audio>
-    
+    <audio id="player" loop autoplay></audio>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化声音播放器
             var sound = document.getElementById("player");
             sound.src = 'https://cdn.jsdelivr.net/gh/bauw2008/bauw/media/audio.ogg';
 
             if (!sound.paused) {
                 document.querySelector('.speaker').classList.add('speakerplay');
             }
-        });
 
-           if (/iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent)) {
-             var audio = document.querySelector("audio");
-             audio.autoplay = false;
-             audio.load();
+            // 针对移动设备处理自动播放
+            if (/iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent)) {
+                sound.autoplay = false;
+                sound.load();
             }
+        });
     </script>
-		
+
     <form method="post" action="/cgi-bin/luci">
         <div class='box'>
             <div class='box-form'>
@@ -107,22 +100,42 @@
                 "title": "Overview"
             }
         });
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var input = document.getElementById('luci_password');
-            if (input)
-                input.focus();
+            if (input) input.focus();
         });
     </script>
 	
-	<%+footer%>
+    <%+footer%>
 	
-	<% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/dashboard.png >/dev/null 2>&1) &") %>
-    <% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/login.png >/dev/null 2>&1) &") %>
-    <% io.popen("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')q=80\&w=1680\" -o /www/luci-static/edge/background/3.png >/dev/null 2>&1) &") %>
-</div>
+    <script>
+        var updateBackgrounds = function() {
+            var urls = [
+                'https://instant.unsplash.com/random?sig=1',
+                'https://instant.unsplash.com/random?sig=2',
+                'https://instant.unsplash.com/random?sig=3'
+            ];
+            urls.forEach(function(url, index) {
+                var img = new Image();
+                img.src = url;
+                img.onload = function() {
+                    var destPath = '/www/luci-static/edge/background/' + ['dashboard.png', 'login.png', '3.png'][index];
+                    fetch(url)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            var formData = new FormData();
+                            formData.append('file', blob, destPath);
+                            return fetch('/cgi-bin/upload', {
+                                method: 'POST',
+                                body: formData
+                            });
+                        });
+                };
+            });
+        };
+        updateBackgrounds();
+    </script>
 </body>
 </html>
 
