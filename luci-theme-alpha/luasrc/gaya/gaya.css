@@ -3134,7 +3134,7 @@
  	.main>.main-left>.nav>.slide>.menu,
  	.main>.main-left>.nav>li>[data-title="Logout"],
   .main>.main-left>.nav>li>[data-title="iStore"] {
- 		font-size: 1.1rem;
+ 		font-size: 1.0rem;
  		color: #fff;
  	}
 
@@ -3407,7 +3407,7 @@
  .main>.main-left>.nav>.slide>.menu,
  .main>.main-left>.nav>li>[data-title="Logout"],
  .main>.main-left>.nav>li>[data-title="iStore"] {
- 	font-size: 1.1rem;
+ 	font-size: 1.0rem;
  }
 
  .cbi-value-title {

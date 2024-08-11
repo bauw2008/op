@@ -150,7 +150,11 @@ function parse_uri(uri) {
 		case 'hy2':
 			/* https://v2.hysteria.network/docs/developers/URI-Scheme/ */
 			url = parseURL('http://' + uri[1]);
-			params = url.searchParams;
+			params = url?.searchParams;
+			
+			if (!params) {
+			   return null;
+			}
 
 			if (!sing_features.with_quic) {
 				log(sprintf('Skipping unsupported %s node: %s.', 'hysteria2', urldecode(url.hash) || url.hostname));
