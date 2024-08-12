@@ -2060,6 +2060,18 @@
  	padding-left: 0.25rem;
  	word-break: break-word;
  }
+ 
+ /* Upgrade文字对齐 */
+ .modal label.btn {
+        display: inline-flex;
+        align-items: center;
+}
+
+/* Upgrade选择框对齐 */
+.modal label.btn input[type="checkbox"] {
+        margin-right: 0.2rem;
+        transform: translateY(-0.4rem);
+}
 
  .modal .label {
  	font-size: 0.6rem;
