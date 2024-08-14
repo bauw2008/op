@@ -18,6 +18,8 @@ dns:
   port: 1745
   anonymize_client_ip: false
   ratelimit: 0
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
   refuse_any: false
   upstream_dns:
@@ -32,8 +34,7 @@ dns:
     - 240e:4a:4300:3::67
   fallback_dns:
     - 202.98.198.167
-  all_servers: false
-  fastest_addr: false
+  upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
@@ -47,7 +48,7 @@ dns:
   cache_size: 4194304
   cache_ttl_min: 0
   cache_ttl_max: 0
-  cache_optimistic: false
+  cache_optimistic: true
   bogus_nxdomain: []
   aaaa_disabled: false
   enable_dnssec: false
@@ -62,13 +63,14 @@ dns:
   bootstrap_prefer_ipv6: false
   upstream_timeout: 10s
   private_networks: []
-  use_private_ptr_resolvers: true
+  use_private_ptr_resolvers: false
   local_ptr_upstreams: []
   use_dns64: false
   dns64_prefixes: []
   serve_http3: false
   use_http3_upstreams: false
   serve_plain_dns: true
+  hostsfile_enabled: true
 tls:
   enabled: false
   server_name: ""
@@ -85,12 +87,14 @@ tls:
   private_key_path: ""
   strict_sni_check: false
 querylog:
+  dir_path: ""
   ignored: []
   interval: 5h
   size_memory: 1000
   enabled: true
   file_enabled: true
 statistics:
+  dir_path: ""
   ignored: []
   interval: 5h
   enabled: true
@@ -168,11 +172,12 @@ clients:
   runtime_sources:
     whois: true
     arp: true
-    rdns: true
+    rdns: false
     dhcp: true
     hosts: true
   persistent: []
 log:
+  enabled: true
   file: ""
   max_backups: 0
   max_size: 100
