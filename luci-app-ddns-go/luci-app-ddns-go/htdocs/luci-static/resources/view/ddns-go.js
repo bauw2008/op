@@ -84,18 +84,14 @@ return view.extend({
 		o.default = '300';
 		o.rmempty = false;
 
+		o = s.option(form.Value, 'dns', _('Custom DNS server'));
+		o.datatype = 'ipaddr'; 
+
 		o = s.option(form.Flag, 'noweb', _('Disable WebUI'));
 		o.default = o.disabled;
 
 		o = s.option(form.Flag, 'insecure', _('Skip certificate verification'));
 		o.default = o.disabled;
-		
-		o = s.option(form.Value, 'dns', _('Specify DNS resolution server'));
-		o.value('223.5.5.5', _('Ali DNS (223.5.5.5)'));
-		o.value('223.6.6.6', _('Ali DNS (223.6.6.6)'));
-		o.value('119.29.29.29', _('Tencent DNS (119.29.29.29)'));
-		o.value('1.1.1.1', _('CloudFlare DNS (1.1.1.1)'));
-		o.default = '223.5.5.5';
 
 		return m.render();
 	}

@@ -3,6 +3,7 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=LuCI Support for docker
 LUCI_DEPENDS:=@(aarch64||arm||x86_64) \
 	+luci-compat \
+	+luci-base \
 	+luci-lib-docker \
 	+luci-lib-ip \
 	+docker \

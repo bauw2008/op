@@ -9,6 +9,7 @@
 
 import { readfile, writefile } from 'fs';
 import { isnan } from 'math';
+import { connect } from 'ubus';
 import { cursor } from 'uci';
 
 import {
@@ -16,6 +17,8 @@ import {
 	removeBlankAttrs, validateHostname, validation,
 	HP_DIR, RUN_DIR
 } from 'homeproxy';
+
+const ubus = connect();
 
 /* UCI config start */
 const uci = cursor();
@@ -41,15 +44,13 @@ const uciruleset = 'ruleset';
 
 const routing_mode = uci.get(uciconfig, ucimain, 'routing_mode') || 'bypass_mainland_china';
 
-let wan_dns = executeCommand('ifstatus wan | jsonfilter -e \'@["dns-server"][0]\'');
-if (wan_dns.exitcode === 0 && trim(wan_dns.stdout))
-	wan_dns = trim(wan_dns.stdout);
-else
-	wan_dns = (routing_mode in ['proxy_mainland_china', 'global']) ? '208.67.222.222' : '114.114.114.114';
+let wan_dns = ubus.call('network.interface', 'status', {'interface': 'wan'})?.['dns-server']?.[0];
+if (!wan_dns)
+	wan_dns = (routing_mode in ['proxy_mainland_china', 'global']) ? '8.8.8.8' : '223.5.5.5';
 
 const dns_port = uci.get(uciconfig, uciinfra, 'dns_port') || '5333';
 
-let main_node, main_udp_node, dedicated_udp_node, default_outbound, sniff_override = '1',
+let main_node, main_udp_node, dedicated_udp_node, default_outbound, domain_strategy, sniff_override = '1',
     dns_server, dns_default_strategy, dns_default_server, dns_disable_cache, dns_disable_cache_expire,
     dns_independent_cache, dns_client_subnet, direct_domain_list, proxy_domain_list;
 
@@ -80,6 +81,7 @@ if (routing_mode !== 'custom') {
 
 	/* Routing settings */
 	default_outbound = uci.get(uciconfig, uciroutingsetting, 'default_outbound') || 'nil';
+	domain_strategy = uci.get(uciconfig, uciroutingsetting, 'domain_strategy');
 	sniff_override = uci.get(uciconfig, uciroutingsetting, 'sniff_override');
 }
 
@@ -93,7 +95,10 @@ const cache_file_store_rdrc = uci.get(uciconfig, uciexp, 'cache_file_store_rdrc'
 const mixed_port = uci.get(uciconfig, uciinfra, 'mixed_port') || '5330';
 let self_mark, redirect_port, tproxy_port,
     tun_name, tun_addr4, tun_addr6, tun_mtu, tun_gso,
-    tcpip_stack, endpoint_independent_nat;
+    tcpip_stack, endpoint_independent_nat, udp_timeout;
+udp_timeout = uci.get(uciconfig, 'infra', 'udp_timeout');
+if (routing_mode === 'custom')
+	udp_timeout = uci.get(uciconfig, uciroutingsetting, 'udp_timeout');
 if (match(proxy_mode, /redirect/)) {
 	self_mark = uci.get(uciconfig, 'infra', 'self_mark') || '100';
 	redirect_port = uci.get(uciconfig, 'infra', 'redirect_port') || '5331';
@@ -160,6 +165,7 @@ function generate_outbound(node) {
 		/* Direct */
 		override_address: node.override_address,
 		override_port: strToInt(node.override_port),
+		proxy_protocol: strToInt(node.proxy_protocol),
 		/* Hysteria (2) */
 		up_mbps: strToInt(node.hysteria_up_mbps),
 		down_mbps: strToInt(node.hysteria_down_mbps),
@@ -482,8 +488,10 @@ push(config.inbounds, {
 	tag: 'mixed-in',
 	listen: '::',
 	listen_port: int(mixed_port),
+	udp_timeout: udp_timeout ? (udp_timeout + 's') : null,
 	sniff: true,
 	sniff_override_destination: (sniff_override === '1'),
+	domain_strategy: domain_strategy,
 	set_system_proxy: false
 });
 
@@ -495,7 +503,8 @@ if (match(proxy_mode, /redirect/))
 		listen: '::',
 		listen_port: int(redirect_port),
 		sniff: true,
-		sniff_override_destination: (sniff_override === '1')
+		sniff_override_destination: (sniff_override === '1'),
+		domain_strategy: domain_strategy,
 	});
 if (match(proxy_mode, /tproxy/))
 	push(config.inbounds, {
@@ -505,8 +514,10 @@ if (match(proxy_mode, /tproxy/))
 		listen: '::',
 		listen_port: int(tproxy_port),
 		network: 'udp',
+		udp_timeout: udp_timeout ? (udp_timeout + 's') : null,
 		sniff: true,
-		sniff_override_destination: (sniff_override === '1')
+		sniff_override_destination: (sniff_override === '1'),
+		domain_strategy: domain_strategy,
 	});
 if (match(proxy_mode, /tun/))
 	push(config.inbounds, {
@@ -520,9 +531,11 @@ if (match(proxy_mode, /tun/))
 		gso: (tun_gso === '1'),
 		auto_route: false,
 		endpoint_independent_nat: strToBool(endpoint_independent_nat),
+		udp_timeout: udp_timeout ? (udp_timeout + 's') : null,
 		stack: tcpip_stack,
 		sniff: true,
 		sniff_override_destination: (sniff_override === '1'),
+		domain_strategy: domain_strategy,
 	});
 /* Inbound end */
 
@@ -661,7 +674,7 @@ if (routing_mode === 'custom') {
 	config.experimental = {
 		cache_file: {
 			enabled: true,
-			path: HP_DIR + '/cache.db',
+			path: RUN_DIR + '/cache.db',
 			store_rdrc: (cache_file_store_rdrc === '1') || null,
 			rdrc_timeout: cache_file_rdrc_timeout
 		}
