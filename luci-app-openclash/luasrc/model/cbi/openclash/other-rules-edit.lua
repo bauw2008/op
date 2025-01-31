@@ -95,6 +95,17 @@ end
 o:value("DIRECT")
 o:value("REJECT")
 
+o = s:option(ListValue, "MainlandTV", translate("CN Mainland TV"))
+o:depends("rule_name", "lhie1")
+o.rmempty = true
+for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
+  if groupname ~= nil and groupname ~= "" then
+    o:value(groupname)
+  end
+end
+o:value("DIRECT")
+o:value("REJECT")
+
 o = s:option(ListValue, "Proxy", translate("Proxy"))
 o:depends("rule_name", "lhie1")
 o.rmempty = true
@@ -140,17 +151,6 @@ o:value("DIRECT")
 o:value("REJECT")
 
 o = s:option(ListValue, "HBOMax", translate("HBO Max"))
-o:depends("rule_name", "lhie1")
-o.rmempty = true
-for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
-  if groupname ~= nil and groupname ~= "" then
-    o:value(groupname)
-  end
-end
-o:value("DIRECT")
-o:value("REJECT")
-
-o = s:option(ListValue, "HBOGo", translate("HBO Go"))
 o:depends("rule_name", "lhie1")
 o.rmempty = true
 for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
@@ -227,7 +227,7 @@ end
 o:value("DIRECT")
 o:value("REJECT")
 
-o = s:option(ListValue, "OpenAI", translate("OpenAI"))
+o = s:option(ListValue, "AI_Suite", translate("AI Suite"))
 o:depends("rule_name", "lhie1")
 o.rmempty = true
 for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
@@ -381,6 +381,17 @@ end
 o:value("DIRECT")
 o:value("REJECT")
 
+o = s:option(ListValue, "HTTPDNS", translate("HTTPDNS"))
+o:depends("rule_name", "lhie1")
+o.rmempty = true
+for groupname in string.gmatch(groupnames, "([^'##\n']+)##") do
+  if groupname ~= nil and groupname ~= "" then
+    o:value(groupname)
+  end
+end
+o:value("DIRECT")
+o:value("REJECT")
+
 o = s:option(ListValue, "Domestic", translate("Domestic"))
 o:depends("rule_name", "lhie1")
 o.rmempty = true
@@ -407,7 +418,7 @@ o:value("REJECT")
 end
 
 local t = {
-    {Commit, Back}
+  {Commit, Back}
 }
 a = m:section(Table, t)
 
@@ -415,16 +426,16 @@ o = a:option(Button,"Commit", " ")
 o.inputtitle = translate("Commit Settings")
 o.inputstyle = "apply"
 o.write = function()
-   m.uci:commit(openclash)
-   --luci.http.redirect(m.redirect)
+  m.uci:commit(openclash)
+  --luci.http.redirect(m.redirect)
 end
 
 o = a:option(Button,"Back", " ")
 o.inputtitle = translate("Back Settings")
 o.inputstyle = "reset"
 o.write = function()
-   m.uci:revert(openclash, sid)
-   luci.http.redirect(m.redirect)
+  m.uci:revert(openclash, sid)
+  luci.http.redirect(m.redirect)
 end
 
 m:append(Template("openclash/toolbar_show"))
