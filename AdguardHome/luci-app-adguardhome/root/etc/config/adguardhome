@@ -1,0 +1,8 @@
+
+config adguardhome 'config'
+	option config '/etc/adguardhome.yaml'
+	option workdir '/var/lib/adguardhome'
+	option enabled '0'
+	option redirect 'none'
+	option web_username 'root'
+	option web_password 'root'

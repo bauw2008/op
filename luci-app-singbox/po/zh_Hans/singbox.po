@@ -1,0 +1,29 @@
+# Translation for SingBox Control Panel
+# Copyright (C) 2025
+# This file is distributed under the same license as the PACKAGE package.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh_CN\n"
+
+msgid "Sing-Box Control Panel"
+msgstr "Sing-Box 控制面板"
+
+msgid "Current Status:"
+msgstr "当前状态："
+
+msgid "Running"
+msgstr "运行中"
+
+msgid "Stopped"
+msgstr "已停止"
+
+msgid "Start"
+msgstr "启动"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Restart"
+msgstr "重启"
+
