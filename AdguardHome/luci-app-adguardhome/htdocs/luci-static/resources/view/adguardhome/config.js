@@ -78,11 +78,11 @@ return view.extend({
 		o.default = 'none';
 
 		o = s.option(form.Value, 'web_username', _('Username for AdGuard Home'), _('The username you configured when you set up AdGuard Home'));
-		o.default = 'admin';
+		o.default = 'root';
 
 		o = s.option(form.Value, 'web_password', _('Password for AdGuard Home'), _('The password you configured when you set up AdGuard Home'));
 		o.password = true;
-		o.default = 'admin';
+		o.default = 'root';
 
 		var ChangePassword = form.Button.extend({
 			set_passwd: rpc.declare({
@@ -95,8 +95,9 @@ return view.extend({
 				var password = document.getElementById("widget.cbid.adguardhome.config.web_password").value;
 				var hash = TwinBcrypt.hashSync(password);
 						
-						// 输出哈希值到控制台
-						//console.log("Generated Hash: ", hash);					
+                // Uncomment to log the hash to console
+                // console.log("Generated Hash: ", hash); 
+                				
 				return Promise.all([ this.set_passwd( username, hash ) ]);
 			},
 		});

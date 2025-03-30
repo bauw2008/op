@@ -82,7 +82,7 @@ return view.extend({
 		var m, s, o;
 		var hosts = data[1]?.hosts;
 
-		m = new form.Map('unblockneteasemusic', _('解除网易云音乐播放限制'),
+		m = new form.Map('unblockneteasemusic', _('UnblockNeteaseMusic'),
 			_('原理：采用 [Bilibili/JOOX/酷狗/酷我/咪咕/pyncmd/QQ/Youtube] 等音源，替换网易云音乐 无版权/收费 歌曲链接<br/>' +
 			'具体使用方法参见：<a href="https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic" target="_blank">GitHub @UnblockNeteaseMusic/luci-app-unblockneteasemusic</a>'));
 

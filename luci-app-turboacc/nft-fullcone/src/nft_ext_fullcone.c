@@ -10,8 +10,14 @@
  * Copyright (c) 2022 Syrone Wong <wong.syrone@gmail.com>
  *   Massively rewrite the whole module, split the original code into library and nftables 'fullcone' expression module
  */
+#include <linux/version.h>
+
 #define pr_fmt(fmt) "fullcone " KBUILD_MODNAME ": " fmt
 #define NF_FULLCONE_WORKQUEUE_NAME "fullcone " KBUILD_MODNAME ": wq"
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
+#define NFT_VALIDATE_2PARAM 1
+#endif
 
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -121,18 +127,6 @@ static int exp_event_cb(unsigned int events, const struct nf_exp_event *item)
 }
 #endif
 
-static int nft_fullcone_validate(const struct nft_ctx *ctx, const struct nft_expr *expr, const struct nft_data **data)
-{
-	int err;
-
-	err = nft_chain_validate_dependency(ctx->chain, NFT_CHAIN_T_NAT);
-	if (err < 0)
-		return err;
-
-	// TODO: check hooks
-	return nft_chain_validate_hooks(ctx->chain, (1 << NF_INET_PRE_ROUTING) | (1 << NF_INET_POST_ROUTING));
-}
-
 static int nft_fullcone_init(const struct nft_ctx *ctx, const struct nft_expr *expr, const struct nlattr *const tb[])
 {
 	int err;
@@ -201,6 +195,22 @@ static int nft_fullcone_dump(struct sk_buff *skb, const struct nft_expr *expr)
 
 nla_put_failure:
 	return -1;
+}
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
+static int nft_fullcone_validate(const struct nft_ctx *ctx, const struct nft_expr *expr)
+#else
+static int nft_fullcone_validate(const struct nft_ctx *ctx, const struct nft_expr *expr, const struct nft_data **data)
+#endif
+{
+    int err;
+
+    err = nft_chain_validate_dependency(ctx->chain, NFT_CHAIN_T_NAT);
+    if (err < 0)
+        return err;
+
+    return nft_chain_validate_hooks(ctx->chain,
+           (1 << NF_INET_PRE_ROUTING) | (1 << NF_INET_POST_ROUTING));
 }
 
 /* nft_fullcone_set_regs sets nft_regs from nft_expr fullcone specific private data */
