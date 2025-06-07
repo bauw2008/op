@@ -53,6 +53,11 @@ check_if_empty()
 }
 call_rest_api()
 {
+	if ! pidof AdGuardHome > /dev/null; then
+        echo "{\"error\":\"AdGuardHome is not running.\"}" > ${TFILE}
+        return 1
+        fi
+        
 	AGH_USER=$(uci get adguardhome.config.web_username 2> /dev/null)
 	check_if_empty "Username not found in uci adguardhome" ${AGH_USER} || exit 1
 	AGH_PASS=$(uci get adguardhome.config.web_password 2> /dev/null)
@@ -83,16 +88,21 @@ group_vars() {
 ############################################################################################
 # Parse AGH yaml file and determine necessary variables in order to function:
 ############################################################################################
-TFILE=/tmp/rpcd-adguardhome-$(date -Ins).tmp
-trap 'rm ${TFILE}; exit' EXIT
-read_config > ${TFILE}
-source ${TFILE}
-[[ "${tls_enabled}" == "false" ]] && PROTO="http" || PROTO="https"
-[[ -z "${http_address}" ]] && http_address=${bind_host}:${bind_port}
-HOST=${http_address%:*}
-[[ "${HOST}" == "0.0.0.0" ]] && HOST=$(uci get system.@system[0].hostname).$(uci get dhcp.@dnsmasq[0].domain)
-HOST=$(echo ${HOST} | awk '{print tolower($0)}')
-PORT=${http_address##*:}
+	TFILE=/tmp/rpcd-adguardhome-$(date -Ins).tmp
+	trap 'rm ${TFILE}; exit' EXIT
+	read_config > ${TFILE}
+	source ${TFILE}
+	HOST=${http_address%:*}
+	[[ "${HOST}" == "0.0.0.0" ]] && HOST=$(uci get system.@system[0].hostname).$(uci get dhcp.@dnsmasq[0].domain)
+	HOST=$(echo ${HOST} | awk '{print tolower($0)}')
+	PORT=${http_address##*:}
+	PROTO="http"
+	if [[ "${tls_enabled}" == "true" ]]; then
+		PROTO="https"
+		HOST=${tls_server_name}
+		PORT=${tls_port_https}
+	fi
+	[[ -z "${http_address}" ]] && http_address=${bind_host}:${bind_port}
 
 ############################################################################################
 # Decision-making cade:
@@ -149,3 +159,4 @@ case "$1" in
 		esac
 		;;
 esac
+

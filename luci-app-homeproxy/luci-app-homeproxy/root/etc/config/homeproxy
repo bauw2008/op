@@ -27,6 +27,7 @@ config homeproxy 'config'
 	option proxy_mode 'redirect_tproxy'
 	option ipv6_support '1'
 	option github_token ''
+	option dns_hijack '1'
 
 config homeproxy 'control'
 	option lan_proxy_mode 'disabled'

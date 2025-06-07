@@ -61,7 +61,7 @@ return view.extend({
             o.value(network.getName());
         }
 
-        o = s.taboption('general', form.ListValue, 'ipv6', _('IPv6'));
+        o = s.taboption('general', form.ListValue, 'ipv6', 'IPv6');
         o.optional = true;
         o.placeholder = _('Unmodified');
         o.value('0', _('Disable'));
@@ -88,7 +88,7 @@ return view.extend({
         o = s.taboption('general', form.Value, 'tcp_keep_alive_idle', _('TCP Keep Alive Idle'));
         o.datatype = 'uinteger';
         o.placeholder = _('Unmodified');
-        
+
         o = s.taboption('general', form.Value, 'tcp_keep_alive_interval', _('TCP Keep Alive Interval'));
         o.datatype = 'uinteger';
         o.placeholder = _('Unmodified');
@@ -103,9 +103,8 @@ return view.extend({
 
         s.tab('external_control', _('External Control Config'));
 
-        o = s.taboption('external_control', form.Value, 'ui_path', '*' + ' ' + _('UI Path'));
+        o = s.taboption('external_control', form.Value, 'ui_path', _('UI Path'));
         o.placeholder = _('Unmodified');
-        o.rmempty = false;
 
         o = s.taboption('external_control', form.Value, 'ui_name', _('UI Name'));
         o.placeholder = _('Unmodified');
@@ -233,7 +232,7 @@ return view.extend({
         o.placeholder = _('Unmodified');
         o.rmempty = false;
 
-        o = s.taboption('dns', form.ListValue, 'dns_ipv6', _('IPv6'));
+        o = s.taboption('dns', form.ListValue, 'dns_ipv6', 'IPv6');
         o.optional = true;
         o.placeholder = _('Unmodified');
         o.value('0', _('Disable'));
@@ -309,7 +308,7 @@ return view.extend({
         so = o.subsection.option(form.Value, 'domain_name', _('Domain Name'));
         so.rmempty = false;
 
-        so = o.subsection.option(form.DynamicList, 'ip', _('IP'));
+        so = o.subsection.option(form.DynamicList, 'ip', 'IP');
 
         o = s.taboption('dns', form.Flag, 'dns_nameserver', _('Overwrite Nameserver'));
         o.rmempty = false;
@@ -513,6 +512,7 @@ return view.extend({
 
         so = o.subsection.option(form.Value, 'matcher', _('Matcher'));
         so.rmempty = false;
+        so.depends({ 'type': /MATCH/i, '!reverse': true });
 
         so = o.subsection.option(form.Value, 'node', _('Node'));
         so.default = 'GLOBAL';
@@ -523,9 +523,8 @@ return view.extend({
 
         so = o.subsection.option(form.Flag, 'no_resolve', _('No Resolve'));
         so.rmempty = false;
-        so.depends('type', 'IP-CIDR');
-        so.depends('type', 'IP-CIDR6');
-        so.depends('type', 'GEOIP');
+        so.depends('type', /IP-CIDR6?/i);
+        so.depends('type', /GEOIP/i);
 
         s.tab('geox', _('GeoX Config'));
 

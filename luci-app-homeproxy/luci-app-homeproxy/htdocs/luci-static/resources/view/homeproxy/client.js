@@ -297,6 +297,11 @@ return view.extend({
 		o = s.taboption('routing', form.Flag, 'ipv6_support', _('IPv6 support'));
 		o.default = o.enabled;
 		o.rmempty = false;
+		
+		// DNS 劫持模式选择
+		o = s.taboption('routing', form.Flag, 'dns_hijack', _('DNS 劫持'));
+		o.default = o.enabled  // 默认启用
+		o.rmempty = false
 
 		/* Custom routing settings start */
 		/* Routing settings start */
@@ -367,6 +372,7 @@ return view.extend({
 
 			this.value('nil', _('Disable'));
 			this.value('direct-out', _('Direct'));
+			this.value('block-out', _('Block'));
 			uci.sections(data[0], 'routing_node', (res) => {
 				if (res.enabled === '1')
 					this.value(res['.name'], res.label);
@@ -739,6 +745,7 @@ return view.extend({
 
 			this.value('default-dns', _('Default DNS (issued by WAN)'));
 			this.value('system-dns', _('System DNS'));
+			this.value('block-dns', _('Block DNS queries'));
 			uci.sections(data[0], 'dns_server', (res) => {
 				if (res.enabled === '1')
 					this.value(res['.name'], res.label);

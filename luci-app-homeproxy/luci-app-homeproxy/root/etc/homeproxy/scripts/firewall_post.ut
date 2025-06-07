@@ -251,14 +251,17 @@ set homeproxy_routing_port {
 
 {# DNS hijack & TCP redirect #}
 chain dstnat {
-{% if (dns_hijacked !== '1'): %}
-	{% if (control_info.listen_interfaces): %}
-	meta iifname {{ array_to_nftarr(control_info.listen_interfaces) }}
-	{%- endif /* listen_interfaces */ %}
-	meta nfproto { ipv4, ipv6 } udp dport 53 counter redirect to :{{ dns_port }} comment "!{{ cfgname }}: DNS hijack"
-{% endif /* dns_hijacked */ %}
+{% 
+/* 新增DNS劫持控制判断 */
+let dns_hijack_enabled = uci.get(cfgname, 'config', 'dns_hijack') || '1';
+if (dns_hijack_enabled === '1' && dns_hijacked !== '1'): %}
+    {% if (control_info.listen_interfaces): %}
+    meta iifname {{ array_to_nftarr(control_info.listen_interfaces) }}
+    {%- endif /* listen_interfaces */ %}
+    meta nfproto { ipv4, ipv6 } udp dport 53 counter redirect to :{{ dns_port }} comment "!{{ cfgname }}: DNS hijack"
+{% endif /* dns_hijack_enabled */ %}
 {% if (match(proxy_mode, /redirect/)): %}
-	meta nfproto { {{ (ipv6_support === '1') ? 'ipv4, ipv6' : 'ipv4' }} } meta l4proto tcp jump homeproxy_redirect_lanac
+    meta nfproto { {{ (ipv6_support === '1') ? 'ipv4, ipv6' : 'ipv4' }} } meta l4proto tcp jump homeproxy_redirect_lanac
 {% endif /* proxy_mode */ %}
 }
 

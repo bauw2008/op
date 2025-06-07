@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sing-box
-PKG_VERSION:=1.11.6
+PKG_VERSION:=1.11.13
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/SagerNet/sing-box/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=01b697683c2433d93e3a15a362241e5e709c01a8e4cc97c889f6d2c5f9db275e
+PKG_HASH:=903d61cb1ae3b4782f294e2429ede8c6929d764e61c04331fcc448c28e9adbba
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -51,7 +51,7 @@ define Package/sing-box
     +ca-bundle \
     +kmod-inet-diag \
     +kmod-netlink-diag \
-    +(SING_BOX_BUILD_GVISOR||SING_BOX_BUILD_LWIP):kmod-tun
+    +SING_BOX_BUILD_GVISOR:kmod-tun
   USERID:=sing-box=5566:sing-box=5566
 endef
 

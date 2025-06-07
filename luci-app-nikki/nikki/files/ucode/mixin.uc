@@ -47,7 +47,7 @@ if (uci_bool(uci.get('nikki', 'mixin', 'authentication'))) {
 }
 
 config['tun'] = {};
-if (uci.get('nikki', 'proxy', 'tcp_transparent_proxy_mode') == 'tun' || uci.get('nikki', 'proxy', 'udp_transparent_proxy_mode') == 'tun') {
+if (uci.get('nikki', 'proxy', 'tcp_mode') == 'tun' || uci.get('nikki', 'proxy', 'udp_mode') == 'tun') {
 	config['tun']['enable'] = true;
 	config['tun']['auto-route'] = false;
 	config['tun']['auto-redirect'] = false;
@@ -172,7 +172,8 @@ if (uci_bool(uci.get('nikki', 'mixin', 'rule'))) {
 		if (!uci_bool(section.enabled)) {
 			return;
 		}
-		push(config['nikki-rules'], `${section.type},${section.matcher},${section.node}` + (uci_bool(section.no_resolve) ? ',no_resolve' : ''));
+		const rule = [ section.type, section.matcher, section.node, uci_bool(section.no_resolve) ? 'no_resolve' : null ];
+		push(config['nikki-rules'], join(',', filter(rule, (item) => item != null && item != '')));
 	})
 }
 

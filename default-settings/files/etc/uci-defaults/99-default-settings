@@ -20,7 +20,8 @@ uci commit system
 	
 #设置network
 #uci set network.wan.ifname='eth0'
-uci set network.lan.ipaddr='10.0.0.1'
+#uci set network.lan.ipaddr='10.0.0.1'
+#uci set network.lan.netmask='255.255.255.0'
 #uci set network.lan.type='bridge'
 #uci set network.lan.ifname='eth1 eth2'
 uci commit network
@@ -78,6 +79,21 @@ echo "DISTRIB_DESCRIPTION='OpenWrt main'" >> /etc/openwrt_release
 #echo '[ -n "$(command -v ip6tables)" ] && ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53' >> /etc/firewall.user
 
 #镜像源替换
+
+cat <<EOF >> /etc/apk/repositories.d/customfeeds.list
+
+# immortalwrt feeds
+#https://downloads.immortalwrt.org/snapshots/targets/x86/64/packages/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/base/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/luci/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/packages/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/routing/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/telephony/packages.adb
+#https://downloads.immortalwrt.org/snapshots/packages/x86_64/video/packages.adb
+EOF
+
+
+#sed -i 's_downloads.openwrt.org_downloads.immortalwrt.org_' /etc/apk/repositories.d/distfeeds.list
 #sed -i 's_downloads.openwrt.org_openwrt.proxy.ustclug.org_' /etc/opkg/distfeeds.conf
 #sed -i 's_downloads.openwrt.org_mirrors.aliyun.com/openwrt_' /etc/opkg/distfeeds.conf
 #sed -i 's_downloads.openwrt.org_mirrors.tuna.tsinghua.edu.cn/openwrt_' /etc/opkg/distfeeds.conf

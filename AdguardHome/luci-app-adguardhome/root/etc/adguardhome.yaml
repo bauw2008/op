@@ -11,7 +11,7 @@ auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
 language: ""
-theme: auto
+theme: dark
 dns:
   bind_hosts:
     - 0.0.0.0
@@ -23,16 +23,18 @@ dns:
   ratelimit_whitelist: []
   refuse_any: false
   upstream_dns:
+    - '#---- 阿里 DNS ----'
     - tls://dns.pub
     - https://dns.pub/dns-query
+    - '#---- 腾讯 DNS ----'
     - tls://dns.alidns.com
     - https://dns.alidns.com/dns-query
+    - '#---- Nikki DNS ----'
+    - '#127.0.0.1:1053'
   upstream_dns_file: ""
   bootstrap_dns:
-    - 202.98.198.167
-    - 202.98.192.67
-  fallback_dns:
-    - 202.98.198.167
+    - 223.5.5.5
+  fallback_dns: []
   upstream_mode: parallel
   fastest_timeout: 1s
   allowed_clients: []
