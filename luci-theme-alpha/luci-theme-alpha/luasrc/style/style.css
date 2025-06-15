@@ -7,9 +7,14 @@ catatan usahakan untuk mengganti bg pakai format png, kalo jpg ganti aja di bagi
 	box-sizing: border-box;
 }
 
-body,
-html {
+
+html, 
+body {
+	margin: 0;
+	padding: 0;
 	height: 100%;
+	width: 100%;
+	overflow: hidden;
 	font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -23,9 +28,31 @@ body {
 	background-attachment: fixed;
 }
 
-/* 隐藏具有 .navbar.active 类的元素 */
-.navbar.active {
-    display: none; /* 或者 visibility: hidden; */
+/*---.navbar.active {
+	#visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+}---*/
+
+@media (max-width: 768px) {
+	body {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: scroll;
+	}
+
+	#CrossFade {
+	height: 100vh;
+	overflow: hidden;
+	}
+
+	#CrossFade img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	}
 }
 
 /*--------------------
@@ -158,14 +185,16 @@ Login Box
 .box-login {
 	position: relative;
 	top: -4px;
-	width: 320px;
+	width: 300px;
+	margin: 0 auto;
 	background: #00000044;
 	text-align: center;
 	overflow: hidden;
 	z-index: 2;
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
-	-webkit-border-radius: 20px: -moz-border-radius=20px;
+	-webkit-border-radius: 20px:
+	-moz-border-radius=20px;
 	border-radius: 20px;
 	-moz-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
 	box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);

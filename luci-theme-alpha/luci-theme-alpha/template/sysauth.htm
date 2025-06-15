@@ -2,40 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- 设置视口，禁止用户缩放，适合移动端全屏显示 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="theme-color" content="#09c">
+    <meta name="theme-color" content="#09c"> <!-- 浏览器主题颜色 -->
     <title>Alpha - Login</title>
+
+    <!-- 样式文件，使用模板变量<%=media%>指向资源目录 -->
     <link rel="stylesheet" href="<%=media%>/style/style.css">
-    <link rel="stylesheet" href="<%=media%>/style/landscape.css"> <!-- 引入 landscape.css -->
+    <link rel="stylesheet" href="<%=media%>/style/landscape.css"> <!-- 横屏样式 -->
     <link rel="shortcut icon" href="<%=media%>/favicon.ico">
-    <script src="<%=media%>/js/jquery.min.js"></script> <!-- 保持对 jQuery 的引用 -->
-    <script src="<%=media%>/js/script.js"></script> <!-- 引入 script.js -->
+
+    <!-- 引入jQuery库 -->
+    <script src="<%=media%>/js/jquery.min.js"></script>
+    <!-- 自定义脚本 -->
+    <script src="<%=media%>/js/script.js"></script>
+    <!-- 语言国际化文件 -->
     <script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
-    <script src="/luci-static/resources/cbi.js?v=git-22.339.35089-7af4a64"></script>
 </head>
 <body>
     <header>
         <div id="CrossFade">
+            <!-- 多张背景图片，可能用于轮播或渐变效果 -->
             <img src="<%=media%>/background/dashboard.png" alt="img">
             <img src="<%=media%>/background/login.png" alt="img">
             <img src="<%=media%>/background/3.png" alt="img">
         </div>
     </header>
 
+    <!-- 声音控制按钮容器 -->
     <div class="speaker"></div>
+    <!-- 循环自动播放的音频元素 -->
     <audio id="player" loop autoplay></audio>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化声音播放器
+        document.addEventListener('DOMContentLoaded', function () {
             var sound = document.getElementById("player");
-            sound.src = 'https://cdn.jsdelivr.net/gh/bauw2008/bauw/media/audio.ogg';
+            var speaker = document.querySelector('.speaker');
+            // 设置音频资源地址
+            sound.src = 'https://gitee.com/bauw/bauw/raw/main/media/audio.ogg';
+            // 监听播放事件，更新图标
+            sound.addEventListener('play', () => {
+                speaker.classList.add('speakerplay');
+            });
+            // 监听暂停事件，更新图标
+            sound.addEventListener('pause', () => {
+                speaker.classList.remove('speakerplay');
+            });
+            // 默认开启声音，自动播放失败（浏览器限制），图标保持静音状态
+            sound.play().catch(() => {
+                speaker.classList.remove('speakerplay');
+            });
+            // 控制播放和暂停
+            speaker.addEventListener('click', () => {
+                if (sound.paused) {
+                    sound.play().catch(() => {});
+                } else {
+                    sound.pause();
+                }
+            });
 
-            if (!sound.paused) {
-                document.querySelector('.speaker').classList.add('speakerplay');
-            }
-
-            // 针对移动设备处理自动播放
+            // 禁用移动端自动播放
             if (/iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent)) {
                 sound.autoplay = false;
                 sound.load();
@@ -43,89 +69,58 @@
         });
     </script>
 
+    <!-- 登录表单 -->
     <form method="post" action="/cgi-bin/luci">
-        <div class='box'>
-            <div class='box-form'>
-                <div class='box-login'>
-                    <label class='checkbox'>
+        <div class="box">
+            <div class="box-form">
+                <div class="box-login">
+                    <label class="checkbox">
                         <% if fuser then %>
                             <div class="alert-message warning">
-                                <p><%:Wrong Password. Try Again.%></p>
+                                <p><%:密码错误，请重试。%></p>
                             </div>
                         <% end %>
                     </label>
-                    <div class='fieldset-body' id='login_form'>
-                        <p class='field'>
-                            <label for='luci_username'>Username</label>
+
+                    <div class="fieldset-body" id="login_form">
+                        <p class="field">
+                            <label for="luci_username">用户名</label>
                             <input type="text" name="luci_username" id="luci_username" autocomplete="username" value="root" />
                         </p>
-                        <p class='field'>
-                            <label for='luci_password'>Password</label>
+                        <p class="field">
+                            <label for="luci_password">密码</label>
                             <input type="password" name="luci_password" id="luci_password" autocomplete="current-password" />
                         </p>
-                        <label class='checkbox'>Please Enter Username & Password.</label>
-                        <input type='submit' id='do_login' value='LOGIN' title='Login' />
+                        <label class="checkbox">请输入用户名和密码.</label>
+                        <input type="submit" id="do_login" value="LOGIN" title="登录" />
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <script src="<%=resource%>/promis.min.js"></script>
-    <script src="<%=resource%>/luci.js"></script>
     <script>
-        var L = new LuCI({
-            "media": "media",
-            "apply_rollback": 90,
-            "resource": "/luci-static/resources",
-            "documentroot": "/www",
-            "pollinterval": 5,
-            "apply_display": 1.5,
-            "requestpath": [],
-            "ubuspath": "/ubus/",
-            "scriptname": "/cgi-bin/luci",
-            "dispatchpath": [],
-            "apply_timeout": 5,
-            "apply_holdoff": 4,
-            "nodespec": {
-                "satisfied": true,
-                "action": {
-                    "type": "template",
-                    "path": "admin_status/index"
-                },
-                "order": 1,
-                "depends": {
-                    "acl": ["luci-mod-status-index"]
-                },
-                "title": "Overview"
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var input = document.getElementById('luci_password');
-            if (input) input.focus();
-        });
-    </script>
-	
-    <%+footer%>
-	
-    <script>
-        var updateBackgrounds = function() {
+        // 更新背景图片的函数
+        var updateBackgrounds = function () {
             var urls = [
                 'https://instant.unsplash.com/random?sig=1',
                 'https://instant.unsplash.com/random?sig=2',
                 'https://instant.unsplash.com/random?sig=3'
             ];
-            urls.forEach(function(url, index) {
+
+            urls.forEach(function (url, index) {
                 var img = new Image();
                 img.src = url;
-                img.onload = function() {
+                 // 目标路径对应服务器上的背景图文件名
+                img.onload = function () {
                     var destPath = '/www/luci-static/edge/background/' + ['dashboard.png', 'login.png', '3.png'][index];
+
                     fetch(url)
                         .then(response => response.blob())
                         .then(blob => {
                             var formData = new FormData();
                             formData.append('file', blob, destPath);
+
                             return fetch('/cgi-bin/upload', {
                                 method: 'POST',
                                 body: formData
@@ -134,6 +129,7 @@
                 };
             });
         };
+        // 调用更新背景函数
         updateBackgrounds();
     </script>
 </body>

@@ -41,8 +41,8 @@ config navbar
 	option enable 'Enable'
 	option line '5'
 	option newtab 'No'
-	option icon '/www/luci-static/alpha/gaya/icon/navbar/AdGuardHome.png'
-	option address '/cgi-bin/luci/admin/services/AdGuardHome'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/adguardhome.png'
+	option address '/cgi-bin/luci/admin/services/adguardhome'
 
 config navbar
 	option name 'msd_lite'
