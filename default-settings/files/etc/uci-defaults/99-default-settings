@@ -39,7 +39,7 @@ rm -f /www/luci-static/resources/view/status/include/25_storage.js
 #rm -f /www/luci-static/resources/view/status/include/50_dsl.js
 #rm -f /www/luci-static/resources/view/status/include/70_ddns.js
 #rm -f /www/luci-static/resources/view/status/include/80_minidlna.js
-rm -f /www/luci-static/resources/view/status/include/80_upnp.js
+#rm -f /www/luci-static/resources/view/status/include/80_upnp.js
 rm -f /www/luci-static/resources/view/status/include/90_mwan3.js
 
 #删除不需显示的
@@ -81,6 +81,12 @@ echo "DISTRIB_DESCRIPTION='OpenWrt main'" >> /etc/openwrt_release
 #镜像源替换
 
 cat <<EOF >> /etc/apk/repositories.d/customfeeds.list
+
+# bauw feeds
+https://bauw2.serv00.net/snapshots/targets/x86/64/packages/packages.adb
+https://bauw2.serv00.net/snapshots/packages/x86_64/base/packages.adb
+https://bauw2.serv00.net/snapshots/packages/x86_64/luci/packages.adb
+https://bauw2.serv00.net/snapshots/packages/x86_64/packages/packages.adb
 
 # immortalwrt feeds
 #https://downloads.immortalwrt.org/snapshots/targets/x86/64/packages/packages.adb

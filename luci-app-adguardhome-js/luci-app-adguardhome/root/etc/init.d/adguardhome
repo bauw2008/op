@@ -75,6 +75,7 @@ use_port53() {
     local dns_port="$1" adguard_port="$2" config_file="$3"
     [ "$dns_port" != "53" ] && return
     sed -i '/dns:/,/^[^ ]/{ /[[:space:]]*port:/ s/port:[[:space:]]*[0-9]\+/port: 53/ }' "$config_file"
+    uci set dhcp.@dnsmasq[0].rebind_protection='0'
     uci set "dhcp.@dnsmasq[0].port=$adguard_port"
     uci commit dhcp
     /etc/init.d/dnsmasq restart
@@ -85,6 +86,7 @@ rm_port53() {
     [ "$current_port" != "53" ] && return
     sed -i '/dns:/,/^[^ ]/{ /[[:space:]]*port:/ s/port:[[:space:]]*[0-9]\+/port: '"$new_port"'/ }' "$config_file"
     uci -q set "dhcp.@dnsmasq[0].port=53"
+    uci set dhcp.@dnsmasq[0].rebind_protection='1'
     uci commit dhcp
     /etc/init.d/dnsmasq restart
 }

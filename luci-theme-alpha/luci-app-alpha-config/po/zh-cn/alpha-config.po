@@ -1,5 +1,5 @@
 msgid "Alpha Config"
-msgstr "Alpha 主题"
+msgstr "Alpha Config"
 
 msgid "Alpha theme configuration"
 msgstr "Alpha 主题配置"

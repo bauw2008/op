@@ -21,12 +21,13 @@ config navbar
 	option address '/cgi-bin/luci/admin/services/ttyd'
 
 config navbar
-	option name 'Open Clash'
+	option name 'nikki'
 	option enable 'Enable'
 	option line '3'
 	option newtab 'No'
-	option icon '/www/luci-static/alpha/gaya/icon/navbar/openclash.png'
-	option address '/cgi-bin/luci/admin/services/openclash'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/mihomo.png'
+	option address '/cgi-bin/luci/admin/services/nikki'
+
 
 config navbar
 	option name 'homeproxy'
@@ -51,4 +52,12 @@ config navbar
 	option newtab 'No'
 	option icon '/www/luci-static/alpha/gaya/icon/navbar/msd_lite.png'
 	option address '/cgi-bin/luci/admin/services/msd_lite'
+
+config navbar
+	option name 'Open Clash'
+	option enable 'Disable'
+	option line '7'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/openclash.png'
+	option address '/cgi-bin/luci/admin/services/openclash'
 	

@@ -2318,18 +2318,22 @@
  	flex-direction: column;
  	min-width: 100px;
  	background-color: #54545450;
- 	border-radius: 20px;
+ 	border-radius: 8px;
  	flex-wrap: nowrap;
  	align-content: center;
  	justify-content: flex-start;
  	align-items: center;
 	color: #fff;
+	overflow: hidden;
  }
 
  div.ifacebox-head {
  	--zone-color-rgb: 144, 240, 144;
  	background-color: rgb(43, 79, 43);
+	width: 100%;
+	text-align: center;
  }
+ 
 
  style attribute {
  	--zone-color-rgb: 144, 240, 144;
@@ -2431,6 +2435,8 @@
  	position: absolute;
  	z-index: 1000;
  	left: -1000px;
+ 	bottom: 100%;
+ 	transform: translateY(195px);
  	transition: opacity 0.25s ease-out;
  	white-space: pre;
  	pointer-events: none;
@@ -2443,6 +2449,15 @@
  	backdrop-filter: blur(20px);
 
  }
+
+div[style*="grid-template-columns:repeat(auto-fit, minmax(70px, 1fr))"] {
+  margin: 0 auto;
+  justify-items: center;
+}
+
+div[style*="grid-template-columns:repeat(auto-fit, minmax(70px, 1fr))"] > .ifacebox {
+  width: 100%;
+}
 
  .cbi-tooltip-container:hover .cbi-tooltip {
  	left: auto;
@@ -3492,6 +3507,7 @@
  .td {
  	flex-basis: 50%;
  	color: #fff;
+ 	text-align: center;
  }
 
  .tr>.td[data-title="Sensor"] {
@@ -3710,6 +3726,7 @@
  		background: #424242;
  	}
  }
+
 
 
 
