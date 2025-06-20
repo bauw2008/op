@@ -169,7 +169,7 @@ start_service() {
 	procd_set_param stderr 1
 	procd_set_param respawn
 
-	local lan_addr="$(uci -q get network.lan.ipaddr)"
+	local lan_addr="$(uci -q get network.lan.ipaddr | cut -d '/' -f1)"
 	if [ "${hijack_ways}" = "use_ipset" ]; then
 		local settype setname
 		if [ -n "$FW4" ]; then
