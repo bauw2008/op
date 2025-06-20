@@ -1,137 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!-- 设置视口，禁止用户缩放，适合移动端全屏显示 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="theme-color" content="#09c"> <!-- 浏览器主题颜色 -->
-    <title>Alpha - Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <meta name="theme-color" content="#09c" />
+  <title>Alpha - Login</title>
 
-    <!-- 样式文件，使用模板变量<%=media%>指向资源目录 -->
-    <link rel="stylesheet" href="<%=media%>/style/style.css">
-    <link rel="stylesheet" href="<%=media%>/style/landscape.css"> <!-- 横屏样式 -->
-    <link rel="shortcut icon" href="<%=media%>/favicon.ico">
+  <link rel="stylesheet" href="<%=media%>/style/style.css" />
+  <link rel="stylesheet" href="<%=media%>/style/landscape.css" />
+  <link rel="shortcut icon" href="<%=media%>/favicon.ico" />
 
-    <!-- 引入jQuery库 -->
-    <script src="<%=media%>/js/jquery.min.js"></script>
-    <!-- 自定义脚本 -->
-    <script src="<%=media%>/js/script.js"></script>
-    <!-- 语言国际化文件 -->
-    <script src="/cgi-bin/luci/admin/translations/en?v=git-22.339.35089-7af4a64"></script>
+  <script src="<%=media%>/js/jquery.min.js"></script>
+  <script src="<%=media%>/js/script.js"></script>
 </head>
-<body>
-    <header>
-        <div id="CrossFade">
-            <!-- 多张背景图片，可能用于轮播或渐变效果 -->
-            <img src="<%=media%>/background/dashboard.png" alt="img">
-            <img src="<%=media%>/background/login.png" alt="img">
-            <img src="<%=media%>/background/3.png" alt="img">
-        </div>
-    </header>
 
-    <!-- 声音控制按钮容器 -->
-    <div class="speaker"></div>
-    <!-- 循环自动播放的音频元素 -->
-    <audio id="player" loop autoplay></audio>
+<%
+  local uci = require "luci.model.uci".cursor()
+  local use_video = uci:get("alpha", "theme", "use_video") or "0"
+%>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var sound = document.getElementById("player");
-            var speaker = document.querySelector('.speaker');
-            // 设置音频资源地址
-            sound.src = 'https://gitee.com/bauw/bauw/raw/main/media/audio.ogg';
-            // 监听播放事件，更新图标
-            sound.addEventListener('play', () => {
-                speaker.classList.add('speakerplay');
-            });
-            // 监听暂停事件，更新图标
-            sound.addEventListener('pause', () => {
-                speaker.classList.remove('speakerplay');
-            });
-            // 默认开启声音，自动播放失败（浏览器限制），图标保持静音状态
-            sound.play().catch(() => {
-                speaker.classList.remove('speakerplay');
-            });
-            // 控制播放和暂停
-            speaker.addEventListener('click', () => {
-                if (sound.paused) {
-                    sound.play().catch(() => {});
-                } else {
-                    sound.pause();
-                }
-            });
+<body data-use-video="<%=use_video%>">
+  <div id="CrossFade"></div>
+  <video id="bgVideo" autoplay muted loop playsinline></video>
+  <div class="speaker"></div>
+  <audio id="player" loop autoplay></audio>
 
-            // 禁用移动端自动播放
-            if (/iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent)) {
-                sound.autoplay = false;
-                sound.load();
-            }
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let useVideo = document.body.dataset.useVideo === '1';
+      const localOverride = localStorage.getItem('useVideoBackground');
+      if (localOverride !== null) {
+        useVideo = localOverride === '1';
+      }
+
+      const video = document.getElementById('bgVideo');
+      const crossfade = document.getElementById('CrossFade');
+      const speaker = document.querySelector('.speaker');
+      const sound = document.getElementById("player");
+      
+      const isMobile = /iPhone|iPad|iPod|iOS|Android/i.test(navigator.userAgent);
+	if (isMobile && useVideo) {
+	  video.muted = true; // 默认静音保障自动播放
+	  video.play().then(() => {
+	// 尝试播放成功后，试图恢复声音
+	    video.muted = false;
+	    speaker.classList.add('speakerplay');
+	  }).catch(() => {
+	// 播放失败继续静音，等待用户操作
+	    video.muted = true;
+	    speaker.classList.remove('speakerplay');
+	    });
+	  }
+
+      // 视频背景设置及声音控制
+      function setupVideoBackground() {
+        video.src = '/luci-static/alpha/background/background.mp4';
+        video.style.display = 'block';
+        video.muted = false; // 默认不静音尝试播放
+        crossfade.style.display = 'none';
+        crossfade.innerHTML = '';
+
+        // 尝试播放视频
+        video.play().then(() => {
+          speaker.classList.toggle('speakerplay', !video.muted && !video.paused && video.volume > 0);
+        }).catch(() => {
+          // 如果自动播放失败，静音并重试
+          console.warn("视频自动播放失败，尝试静音后重播");
+          video.muted = true;
+          video.play().then(() => {
+            speaker.classList.remove('speakerplay');
+          }).catch(() => {
+            console.warn("静音播放也失败");
+          });
         });
-    </script>
 
-    <!-- 登录表单 -->
-    <form method="post" action="/cgi-bin/luci">
-        <div class="box">
-            <div class="box-form">
-                <div class="box-login">
-                    <label class="checkbox">
-                        <% if fuser then %>
-                            <div class="alert-message warning">
-                                <p><%:密码错误，请重试。%></p>
-                            </div>
-                        <% end %>
-                    </label>
-
-                    <div class="fieldset-body" id="login_form">
-                        <p class="field">
-                            <label for="luci_username">用户名</label>
-                            <input type="text" name="luci_username" id="luci_username" autocomplete="username" value="root" />
-                        </p>
-                        <p class="field">
-                            <label for="luci_password">密码</label>
-                            <input type="password" name="luci_password" id="luci_password" autocomplete="current-password" />
-                        </p>
-                        <label class="checkbox">请输入用户名和密码.</label>
-                        <input type="submit" id="do_login" value="LOGIN" title="登录" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <script>
-        // 更新背景图片的函数
-        var updateBackgrounds = function () {
-            var urls = [
-                'https://instant.unsplash.com/random?sig=1',
-                'https://instant.unsplash.com/random?sig=2',
-                'https://instant.unsplash.com/random?sig=3'
-            ];
-
-            urls.forEach(function (url, index) {
-                var img = new Image();
-                img.src = url;
-                 // 目标路径对应服务器上的背景图文件名
-                img.onload = function () {
-                    var destPath = '/www/luci-static/edge/background/' + ['dashboard.png', 'login.png', '3.png'][index];
-
-                    fetch(url)
-                        .then(response => response.blob())
-                        .then(blob => {
-                            var formData = new FormData();
-                            formData.append('file', blob, destPath);
-
-                            return fetch('/cgi-bin/upload', {
-                                method: 'POST',
-                                body: formData
-                            });
-                        });
-                };
+        // 切换声音
+        speaker.onclick = () => {
+          if (video.muted) {
+            video.muted = false;
+            video.volume = 1;
+            video.play().catch(() => {
+              video.muted = true;
+              speaker.classList.remove('speakerplay');
             });
+          } else {
+            video.muted = true;
+          }
+          speaker.classList.toggle('speakerplay', !video.muted);
         };
-        // 调用更新背景函数
-        updateBackgrounds();
-    </script>
+
+        video.addEventListener('play', () => {
+          if (!video.muted && video.volume > 0) {
+            speaker.classList.add('speakerplay');
+          } else {
+            speaker.classList.remove('speakerplay');
+          }
+        });
+
+        video.addEventListener('pause', () => speaker.classList.remove('speakerplay'));
+
+        // 如果视频加载失败，自动切换到图片背景
+        video.addEventListener('error', () => {
+          console.warn("视频加载失败，切换到图片背景");
+          setupImageBackground();
+        });
+      }
+
+      // 图片背景设置及声音控制
+      function setupImageBackground() {
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+        video.style.display = 'none';
+
+        crossfade.style.display = 'block';
+        crossfade.innerHTML = '';
+
+        // 添加多张背景图片实现轮播或渐变效果
+        const backgrounds = ['dashboard.png', 'login.png', 'custom.png'];
+        const basePath = '/luci-static/alpha/background/';
+        backgrounds.forEach(filename => {
+          const img = document.createElement('img');
+          img.src = basePath + filename;
+          img.alt = 'background';
+          crossfade.appendChild(img);
+        });
+
+        sound.src = 'https://gitee.com/bauw/bauw/raw/main/media/audio.ogg';
+        sound.loop = true;
+        sound.autoplay = true;
+        sound.muted = false; // 默认尝试不静音
+        sound.load();
+
+        sound.play().then(() => {
+          speaker.classList.add('speakerplay');
+        }).catch(() => {
+          console.warn("音频播放失败，尝试静音后重播");
+          sound.muted = true;
+          sound.play().catch(() => {});
+          speaker.classList.remove('speakerplay');
+        });
+
+        // 控制播放/暂停
+        speaker.onclick = () => {
+          if (sound.paused) {
+            sound.muted = false;
+            sound.play().catch(() => {});
+          } else {
+            sound.pause();
+          }
+        };
+
+        sound.addEventListener('play', () => speaker.classList.add('speakerplay'));
+        sound.addEventListener('pause', () => speaker.classList.remove('speakerplay'));
+      }
+
+      // 根据配置启动对应背景模式
+      if (useVideo) {
+        setupVideoBackground();
+      } else {
+        setupImageBackground();
+      }
+    });
+  </script>
+
+  <!-- 登录表单 -->
+  <form method="post" action="/cgi-bin/luci">
+    <div class="box">
+      <div class="box-form">
+        <div class="box-login">
+          <% if fuser then %>
+            <div class="alert-message warning">
+              <p><%:密码错误，请重试。%></p>
+            </div>
+          <% end %>
+
+          <div class="fieldset-body" id="login_form">
+            <p class="field">
+              <label for="luci_username">用户名</label>
+              <input type="text" name="luci_username" id="luci_username" autocomplete="username" value="root" />
+            </p>
+            <p class="field">
+              <label for="luci_password">密码</label>
+              <input type="password" name="luci_password" id="luci_password" autocomplete="current-password" />
+            </p>
+            <label class="checkbox">请输入用户名和密码.</label>
+            <input type="submit" id="do_login" value="LOGIN" title="登录" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </body>
 </html>
 

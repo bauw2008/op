@@ -3,6 +3,7 @@ config theme 'theme'
 	option color '#2222359a'
 	option blur '00'
 	option navbar '1'
+	option use_video '0'
 
 config navbar
 	option name 'Overview'

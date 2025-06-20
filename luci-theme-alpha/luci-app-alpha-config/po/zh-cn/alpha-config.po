@@ -32,19 +32,49 @@ msgid "Background configuration"
 msgstr "背景配置"
 
 msgid "You can upload files such as jpg or png files, and files will be uploaded to <code>%s</code>."
-msgstr "你可以上传如 jpg 或 png 文件，文件将上传到 <code>%s</code>。"
+msgstr "你可以上传 jpg 或 png 文件，上传的文件将保存至 <code>%s</code>。"
 
 msgid "Login"
-msgstr "登录"
+msgstr "登录背景"
 
 msgid "Upload file for login background."
-msgstr "上传登录背景文件。"
+msgstr "上传登录页面背景图像。"
 
 msgid "Dashboard"
-msgstr "仪表板"
+msgstr "仪表板背景"
 
 msgid "Upload file for dashboard background."
-msgstr "上传仪表板背景文件。"
+msgstr "上传仪表板页面背景图像。"
+
+msgid "Custom"
+msgstr "自定义背景"
+
+msgid "Upload file for custom background."
+msgstr "上传自定义背景图像。"
+
+msgid "Video"
+msgstr "视频背景"
+
+msgid "Upload video file for login background (MP4 only)."
+msgstr "上传用于登录背景的视频文件（仅支持 MP4 格式）。"
+
+msgid "Use Video Background"
+msgstr "使用视频背景"
+
+msgid "Enable background video instead of images."
+msgstr "启用视频背景替代图片背景。"
+
+msgid "Login picture successfully uploaded."
+msgstr "登录背景图上传成功。"
+
+msgid "Dashboard picture successfully uploaded."
+msgstr "仪表板背景图上传成功。"
+
+msgid "Custom background picture successfully uploaded."
+msgstr "自定义背景图上传成功。"
+
+msgid "Login background video successfully uploaded."
+msgstr "登录背景视频上传成功。"
 
 msgid "Navigation bar configuration"
 msgstr "导航栏配置"

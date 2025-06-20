@@ -1033,6 +1033,14 @@
  .alert-message>* {
  	margin: 0.5rem 0;
  }
+ 
+/* 隐藏所有可能的滚动条（保留滚动功能） */
+
+
+#mainmenu::-webkit-scrollbar {
+    display: none !important;
+
+}
 
  body[class*="node-"]>.main>.main-left>.nav>.slide>.menu::before {
  	transition: transform 0.1s ease-in-out;
@@ -3726,6 +3734,7 @@ div[style*="grid-template-columns:repeat(auto-fit, minmax(70px, 1fr))"] > .iface
  		background: #424242;
  	}
  }
+
 
 
 

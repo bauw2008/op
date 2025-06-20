@@ -43,7 +43,7 @@ return view.extend({
 		o.onclick = function(ev) {
 			var file = bg_path + 'login.png';
 			return ui.uploadFile(file, ev.target).then(function() {
-				return fs.exec('chmod', ['777', file]).then(function() {
+				return fs.exec('chmod', ['644', file]).then(function() {
 					ui.addNotification(null, E('p', _('Login picture successfully uploaded.')));
 				});
 			}).catch(function(e) { ui.addNotification(null, E('p', e.message)); });
@@ -55,12 +55,41 @@ return view.extend({
 		o.onclick = function(ev) {
 			var file = bg_path + 'dashboard.png';
 			return ui.uploadFile(file, ev.target).then(function() {
-				return fs.exec('chmod', ['777', file]).then(function() {
+				return fs.exec('chmod', ['644', file]).then(function() {
 					ui.addNotification(null, E('p', _('Dashboard picture successfully uploaded.')));
 				});
 			}).catch(function(e) { ui.addNotification(null, E('p', e.message)); });
 		};
 		o.modalonly = true;
+		o = s.option(form.Button, 'custom', _('Custom'), _('Upload file for custom background.'));
+		o.inputstyle = 'action';
+		o.inputtitle = _('Upload');		
+		o.onclick = function(ev) {
+			var file = bg_path + 'custom.png';
+			return ui.uploadFile(file, ev.target).then(function() {
+				return fs.exec('chmod', ['644', file]).then(function() {
+					ui.addNotification(null, E('p', _('Custom background picture successfully uploaded.')));
+				});
+			}).catch(function(e) { ui.addNotification(null, E('p', e.message)); });
+		};
+		o.modalonly = true;
+		
+		o = s.option(form.Button, 'video', _('Video'), _('Upload video file for login background (MP4 only).'));
+		o.inputstyle = 'action';
+		o.inputtitle = _('Upload');
+		o.onclick = function(ev) {
+			var file = bg_path + 'background.mp4';
+			return ui.uploadFile(file, ev.target).then(function() {
+				return fs.exec('chmod', ['644', file]).then(function() {
+					ui.addNotification(null, E('p', _('Login background video successfully uploaded.')));
+				});
+			}).catch(function(e) { ui.addNotification(null, E('p', e.message)); });
+		};
+		o.modalonly = true;
+		
+		o = s.option(form.Flag, 'use_video', _('Use Video Background'), _('Enable background video instead of images.'));
+		o.default = '0';
+		o.rmempty = false;
 
 		s = m.section(form.GridSection, 'navbar', _('Navigation bar configuration'));
 		s.anonymous = true;
