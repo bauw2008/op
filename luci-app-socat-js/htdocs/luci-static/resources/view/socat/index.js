@@ -174,10 +174,12 @@ return view.extend({
     o.modalonly = true;
 
     o = s.option(form.ListValue, 'family', _('Restrict to address family'));
-    o.value('', _('IPv4 and IPv6'));
+    o.value('4/6', _('IPv4 and IPv6'));
     o.value('4', _('IPv4 only'));
     o.value('6', _('IPv6 only'));
+    o.default = '6';
     o.depends({ 'protocol': 'port_forwards' });
+    o.rmempty = false;
     o.modalonly = true;
 
     o = s.option(form.ListValue, 'proto', _('Protocol'));
@@ -190,9 +192,9 @@ return view.extend({
     o.datatype = 'portrange';
 
     o = s.option(form.Flag, 'reuseaddr', _('REUSEADDR'));
-    o.default = '1';
-    o.rmempty = false;
+    o.default = '0';
     o.description = _('Bind to a port local');
+    o.rmempty = false;
     o.modalonly = true;
 
     o = s.option(form.ListValue, 'dest_proto', _('Destination Protocol'));
@@ -212,8 +214,9 @@ return view.extend({
     o.datatype = 'portrange';
 
     o = s.option(form.Flag, 'firewall_accept', _('Open firewall port'));
-    o.default = '1';
+    o.default = '0';
     o.editable = true;
+    o.rmempty = false;
 
     o = s.option(form.ListValue, 'proxy', _('Proxy'));
     o.value('', _('None'));
@@ -251,4 +254,3 @@ return view.extend({
     return m.render();
   }
 });
-
