@@ -1,0 +1,202 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+
+PROG=/usr/bin/AdGuardHome
+START=19
+STOP=89
+
+boot() {
+    adguardhome_boot=1
+    start "$@"
+}
+
+apply_rewrite_config() {
+    local LAN_IP CONFIG_FILE INDENT
+
+    LAN_IP=$(ip -4 addr show br-lan | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+    if [ -z "$LAN_IP" ]; then
+        logger -t AdGuardHome "Could not detect LAN IP, skipping rewrite config"
+        return 1
+    fi
+
+    CONFIG_FILE="/etc/adguardhome.yaml"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        logger -t AdGuardHome "Config file not found: $CONFIG_FILE"
+        return 1
+    fi
+
+    local CURRENT_ANSWER
+    CURRENT_ANSWER=$(awk '
+        BEGIN {found=0}
+        /^[[:space:]]*rewrites:/ {in_rewrites=1}
+        in_rewrites && /^[[:space:]]*-[[:space:]]*domain:[[:space:]]*openwrt\.lan/ {found=1; next}
+        found && /^[[:space:]]*answer:[[:space:]]*/ {
+            gsub(/^[[:space:]]*answer:[[:space:]]*/, "", $0)
+            print $0
+            exit
+        }
+    ' "$CONFIG_FILE")
+
+    [ "$CURRENT_ANSWER" = "$LAN_IP" ] && return 0
+
+    if [ -n "$CURRENT_ANSWER" ]; then
+        sed -i "/^[[:space:]]*-[[:space:]]*domain:[[:space:]]*openwrt\.lan/{n;s/^[[:space:]]*answer:.*/    answer: $LAN_IP/;}" "$CONFIG_FILE"
+        logger -t AdGuardHome "Rewrite config updated (patched answer), restarting service"
+        service adguardhome restart
+        return 0
+    fi
+
+    INDENT=$(grep -E '^[[:space:]]*rewrites:' "$CONFIG_FILE" | head -n1 | sed -E 's|(rewrites:.*)||')
+    INDENT=${INDENT:-""}
+
+    if grep -q '^[[:space:]]*rewrites:[[:space:]]*\[\]' "$CONFIG_FILE"; then
+        sed -i "/^[[:space:]]*rewrites:[[:space:]]*\[\]/c\\
+${INDENT}rewrites:\\
+${INDENT}  - domain: openwrt.lan\\
+${INDENT}    answer: ${LAN_IP}" "$CONFIG_FILE"
+    elif grep -q '^[[:space:]]*rewrites:[[:space:]]*$' "$CONFIG_FILE"; then
+        sed -i "/^[[:space:]]*rewrites:[[:space:]]*$/a\\
+${INDENT}  - domain: openwrt.lan\\
+${INDENT}    answer: ${LAN_IP}" "$CONFIG_FILE"
+    elif grep -q '^[[:space:]]*rewrites:' "$CONFIG_FILE"; then
+        sed -i "/^[[:space:]]*rewrites:/a\\
+${INDENT}  - domain: openwrt.lan\\
+${INDENT}    answer: ${LAN_IP}" "$CONFIG_FILE"
+    else
+        echo -e "${INDENT}rewrites:\n${INDENT}  - domain: openwrt.lan\n${INDENT}    answer: ${LAN_IP}" >> "$CONFIG_FILE"
+    fi
+
+    logger -t AdGuardHome "Rewrite config added (new entry), restarting service"
+    ##service adguardhome restart
+}
+
+use_port53() {
+    local dns_port="$1" adguard_port="$2" config_file="$3"
+    [ "$dns_port" != "53" ] && return
+    sed -i '/dns:/,/^[^ ]/{ /[[:space:]]*port:/ s/port:[[:space:]]*[0-9]\+/port: 53/ }' "$config_file"
+    uci set dhcp.@dnsmasq[0].rebind_protection='0'
+    uci set "dhcp.@dnsmasq[0].port=$adguard_port"
+    uci commit dhcp
+    /etc/init.d/dnsmasq restart
+}
+
+rm_port53() {
+    local current_port="$1" new_port="$2" config_file="$3"
+    [ "$current_port" != "53" ] && return
+    sed -i '/dns:/,/^[^ ]/{ /[[:space:]]*port:/ s/port:[[:space:]]*[0-9]\+/port: '"$new_port"'/ }' "$config_file"
+    uci -q set "dhcp.@dnsmasq[0].port=53"
+    uci set dhcp.@dnsmasq[0].rebind_protection='1'
+    uci commit dhcp
+    /etc/init.d/dnsmasq restart
+}
+
+set_redirect() {
+    local dest_port="$1"
+    local section
+    section=$(uci add firewall redirect)
+    [ -z "$section" ] && return
+    [ "$(uci -q get "firewall.$section.dest_port")" = "$dest_port" ] && return
+    uci -q set "firewall.$section.target=DNAT"
+    uci -q set "firewall.$section.name=AdGuard Home"
+    uci -q set "firewall.$section.src=lan"
+    uci -q set "firewall.$section.src_dport=53"
+    uci -q set "firewall.$section.dest_port=$dest_port"
+    uci commit firewall
+    /etc/init.d/firewall reload
+    echo "Firewall rules updated."
+}
+
+clear_redirect() {
+    local redirects
+    redirects=$(uci show firewall | grep "AdGuard Home" | cut -d'.' -f1-2)
+    [ -z "$redirects" ] && return
+    for redirect in $redirects; do
+        uci -q delete "$redirect"
+        echo "Deleted redirect rule: $redirect"
+    done
+    uci commit firewall
+    /etc/init.d/firewall reload
+    echo "Firewall rules updated."
+}
+
+set_forward_dnsmasq() {
+    local port="$1" current_server="$2"
+    local addr="127.0.0.1#$port"
+    echo "$current_server" | grep -q "^$addr" && return
+    uci -q add_list dhcp.@dnsmasq[0].server="$addr"
+    uci -q delete "dhcp.@dnsmasq[0].resolvfile"
+    uci set "dhcp.@dnsmasq[0].noresolv=1"
+    uci commit dhcp
+    /etc/init.d/dnsmasq restart
+}
+
+stop_forward_dnsmasq() {
+    local port="$1" current_server="$2"
+    local addr="127.0.0.1#$port"
+    echo "$current_server" | grep -q "^$addr" || return
+    uci -q delete "dhcp.@dnsmasq[0].server"
+    uci -q delete "dhcp.@dnsmasq[0].noresolv"
+    uci commit dhcp
+    /etc/init.d/dnsmasq restart
+}
+
+start_service() {
+    apply_rewrite_config
+
+    local AdGuardHome_PORT dnsmasq_port DNSMASQ_SERVER
+
+    [ -n "$adguardhome_boot" ] && return 0
+
+    config_load adguardhome
+    config_get CONFIG_FILE config config "/etc/adguardhome.yaml"
+    config_get PID_FILE config pidfile "/run/adguardhome.pid"
+    config_get WORK_DIR config workdir "/var/lib/adguardhome"
+    config_get REDIRECT config redirect "none"
+    config_get_bool ENABLED config enabled 0
+
+    AdGuardHome_PORT=$(awk '/dns:/{f=1} f&&/port:/{split($0,a,": *");print a[2];exit}' "$CONFIG_FILE")
+    dnsmasq_port=$(uci -q get dhcp.@dnsmasq[0].port)
+    DNSMASQ_SERVER=$(uci -q get dhcp.@dnsmasq[0].server)
+
+    [ "$ENABLED" -eq 0 ] && return 1
+    [ -d "$WORK_DIR" ] || mkdir -m 0755 -p "$WORK_DIR"
+
+    case "$REDIRECT" in
+        "redirect") set_redirect "$AdGuardHome_PORT" ;;
+        "dnsmasq-upstream") set_forward_dnsmasq "$AdGuardHome_PORT" "$DNSMASQ_SERVER" ;;
+        "exchange") use_port53 "$dnsmasq_port" "$AdGuardHome_PORT" "$CONFIG_FILE" ;;
+    esac
+
+    procd_open_instance adguardhome
+    procd_set_param command "$PROG" -c "$CONFIG_FILE" -w "$WORK_DIR" --pidfile "$PID_FILE" --no-check-update
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_set_param user root
+    procd_close_instance
+}
+
+stop_service() {
+    local AdGuardHome_PORT dnsmasq_port DNSMASQ_SERVER
+    [ -n "$adguardhome_boot" ] && return 0
+    config_load adguardhome
+    config_get CONFIG_FILE config config "/etc/adguardhome.yaml"
+    AdGuardHome_PORT=$(awk '/dns:/{f=1} f&&/port:/{split($0,a,": *");print a[2];exit}' "$CONFIG_FILE")
+    dnsmasq_port=$(uci -q get dhcp.@dnsmasq[0].port)
+    DNSMASQ_SERVER=$(uci -q get dhcp.@dnsmasq[0].server)
+    rm_port53 "$AdGuardHome_PORT" "$dnsmasq_port" "$CONFIG_FILE"
+    clear_redirect
+    stop_forward_dnsmasq "$AdGuardHome_PORT" "$DNSMASQ_SERVER"
+}
+
+reload_service() {
+    restart
+}
+
+service_triggers() {
+    procd_add_reload_trigger "adguardhome"
+    if [ -n "$adguardhome_boot" ]; then
+        procd_add_raw_trigger "interface.*.up" 5000 /etc/init.d/adguardhome restart
+    fi
+}
+

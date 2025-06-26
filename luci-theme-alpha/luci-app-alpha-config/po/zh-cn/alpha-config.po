@@ -1,0 +1,135 @@
+msgid "Alpha Config"
+msgstr "Alpha Config"
+
+msgid "Alpha theme configuration"
+msgstr "Alpha 主题配置"
+
+msgid "Here you can set background login and dashboard themes. Chrome is recommended."
+msgstr "在这里你可以设置登录和仪表板的背景主题。推荐使用 Chrome 浏览器。"
+
+msgid "Theme configuration"
+msgstr "主题配置"
+
+msgid "Primary color"
+msgstr "主色"
+
+msgid "A HEX color (default: #2222359a)."
+msgstr "一个 HEX 颜色（默认值：#2222359a）。"
+
+msgid "Transparency level"
+msgstr "透明度等级"
+
+msgid "Transparent level for menu."
+msgstr "菜单的透明度等级。"
+
+msgid "Navigation bar"
+msgstr "导航栏"
+
+msgid "Enable navigation bar menu."
+msgstr "启用导航栏菜单。"
+
+msgid "Background configuration"
+msgstr "背景配置"
+
+msgid "You can upload files such as jpg or png files, and files will be uploaded to <code>%s</code>."
+msgstr "你可以上传 jpg 或 png 文件，上传的文件将保存至 <code>%s</code>。"
+
+msgid "Login"
+msgstr "登录背景"
+
+msgid "Upload file for login background."
+msgstr "上传登录页面背景图像。"
+
+msgid "Dashboard"
+msgstr "仪表板背景"
+
+msgid "Upload file for dashboard background."
+msgstr "上传仪表板页面背景图像。"
+
+msgid "Custom"
+msgstr "自定义背景"
+
+msgid "Upload file for custom background."
+msgstr "上传自定义背景图像。"
+
+msgid "Video"
+msgstr "视频背景"
+
+msgid "Upload video file for login background (MP4 only)."
+msgstr "上传用于登录背景的视频文件（仅支持 MP4 格式）。"
+
+msgid "Use Video Background"
+msgstr "使用视频背景"
+
+msgid "Enable background video instead of images."
+msgstr "启用视频背景替代图片背景。"
+
+msgid "Login picture successfully uploaded."
+msgstr "登录背景图上传成功。"
+
+msgid "Dashboard picture successfully uploaded."
+msgstr "仪表板背景图上传成功。"
+
+msgid "Custom background picture successfully uploaded."
+msgstr "自定义背景图上传成功。"
+
+msgid "Login background video successfully uploaded."
+msgstr "登录背景视频上传成功。"
+
+msgid "Navigation bar configuration"
+msgstr "导航栏配置"
+
+msgid "Add new navigation"
+msgstr "添加新导航"
+
+msgid "Add new navigation..."
+msgstr "添加新导航…"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Line"
+msgstr "行"
+
+msgid "New tab"
+msgstr "新标签页"
+
+msgid "Icon"
+msgstr "图标"
+
+msgid "Address"
+msgstr "地址"
+
+msgid "Name navigation bar"
+msgstr "导航栏名称"
+
+msgid "Enable navigation bar."
+msgstr "启用导航栏。"
+
+msgid "Enable"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+msgid "Line number"
+msgstr "行号"
+
+msgid "Enter a line number between 1 to 10."
+msgstr "输入一个介于 1 到 10 之间的行号。"
+
+msgid "Open in new tab"
+msgstr "在新标签页中打开"
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Upload PNG file with size 256x256."
+msgstr "上传 256x256 大小的 PNG 文件。"
+

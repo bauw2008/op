@@ -1,0 +1,59 @@
+msgid "Socat"
+msgstr "Socat"
+
+msgid "SOCAT <a href='https://github.com/bauw2008/op/tree/main/luci-app-socat-js' target='_blank'>(GitHub)</a> is a powerful and flexible networking tool that allows you to forward, bridge, and transform data across various protocols. It serves as a versatile solution for network diagnostics, port forwarding, and creating complex network connections, with support for encryption and more."
+msgstr "SOCAT <a href='https://github.com/bauw2008/op/tree/main/luci-app-socat-js' target='_blank'>(GitHub)</a> 是一个功能强大且灵活的网络工具，允许你在多种协议之间转发、桥接和转换数据。它是网络诊断、端口转发和创建复杂网络连接的多功能解决方案，并支持加密等高级功能。"
+
+msgid "Socat Config"
+msgstr "Socat 配置"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Enabled"
+msgstr "启用"
+
+msgid "Remarks"
+msgstr "备注"
+
+msgid "Protocol"
+msgstr "协议"
+
+msgid "IPv6 Only"
+msgstr "仅IPv6"
+
+msgid "When checked, only IPv6 ports are listen for, otherwise IPv4 will also be listened for."
+msgstr "当勾选时，仅监听IPv6，否则将会同时监听IPv4。"
+
+msgid "Port Forwards"
+msgstr "端口转发"
+
+msgid "Listen Protocol"
+msgstr "监听协议"
+
+msgid "Listen port"
+msgstr "监听端口"
+
+msgid "Bind to a port local"
+msgstr "绑定到本地端口"
+
+msgid "Destination Protocol"
+msgstr "目标协议"
+
+msgid "Destination address"
+msgstr "目标地址"
+
+msgid "Destination port"
+msgstr "目标端口"
+
+msgid "Proxy"
+msgstr "代理"
+
+msgid "Proxy Server"
+msgstr "代理服务器"
+
+msgid "Proxy Port"
+msgstr "代理端口"
+
+msgid "Open firewall port"
+msgstr "防火墙端口"

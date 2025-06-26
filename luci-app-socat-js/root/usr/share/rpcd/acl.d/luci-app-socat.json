@@ -1,0 +1,18 @@
+{
+  "luci-app-socat": {
+    "description": "Grant UCI and UBUS access for luci-app-socat",
+    "read": {
+      "ubus": {
+        "service": ["list"]
+      },
+      "uci": ["socat"],
+      "file": {
+        "/tmp/dhcp.leases": ["read"]
+      }
+    },
+    "write": {
+      "uci": ["socat"]
+    }
+  }
+}
+

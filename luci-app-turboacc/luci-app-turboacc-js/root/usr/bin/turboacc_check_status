@@ -1,0 +1,66 @@
+#!/bin/sh
+
+EXTRA_COMMANDS="check_status"
+EXTRA_HELP="    check_status Check running status of utils"
+
+check_status(){
+    case "$1" in
+    "fastpath")
+        if [ "$(cat "/sys/module/nft_flow_offload/refcnt" 2>"/dev/null" || echo -1)" -gt "0" ]; then
+            msg="Flow Offloading"
+            exit_code=0
+        elif [ "$(cat "/sys/module/nft_flow_offload/refcnt" 2>"/dev/null")" -eq "0" ] && \
+             [ -e /sys/kernel/debug/hnat/hnat_version ]; then
+            msg="MediaTek HWNAT"
+            exit_code=0
+        elif [ -d /sys/kernel/debug/ecm/ecm_nss_ipv4 ]; then
+            msg="QCA-NSS-ECM"
+            exit_code=0
+        elif [ -d /sys/kernel/debug/ecm/ecm_sfe_ipv4 ]; then
+            msg="QCA-ECM-SFE"
+            exit_code=0
+        elif [ -d /sys/module/fast_classifier ]; then
+            msg="Shortcut-FE"
+            exit_code=0
+        elif [ -d /sys/module/shortcut_fe_cm ]; then
+            msg="Shortcut-FE ECM"
+            exit_code=0
+        else
+            msg="No status detected"
+            exit_code=1
+        fi
+        ;;
+    "fullconenat")
+        refcnt=$(cat "/sys/module/nft_fullcone/refcnt" 2>"/dev/null" || echo -1)
+        if [ "$refcnt" -gt "0" ]; then
+            msg="FullCone_NAT"
+            exit_code=0
+        else
+            msg="FullCone6"
+            exit_code=1
+        fi
+        ;;
+    "bbr")
+        value=$(printf "%s" "$(cat /proc/sys/net/ipv4/tcp_congestion_control 2>/dev/null)")
+        if [ "$value" = "bbr" ]; then
+            exit_code=0
+            msg="BBR"
+        else
+            exit_code=1
+        fi
+        ;;
+    *)
+        exit_code=2
+        ;;
+    esac
+
+    # Print the message if applicable
+    if [ "$msg" != "" ] && { [ $# = 1 ] || { [ $# = 2 ] && [ "$2" = 1 ]; }; }; then
+        echo -n "$msg"
+    fi
+
+    exit "$exit_code"
+}
+
+check_status "$1"
+

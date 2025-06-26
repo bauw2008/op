@@ -1,0 +1,17 @@
+{
+    "luci-app-turboacc": {
+         "description": "Grant UCI access for luci-app-turboacc",
+         "read": {
+             "file": {
+                 "/usr/bin/turboacc_check_status": [ "exec" ]
+             },
+             "ubus": {
+                 "service": [ "list" ]
+             },
+             "uci": [ "turboacc" ]
+         },
+         "write": {
+             "uci": [ "turboacc" ]
+         }
+     }
+}

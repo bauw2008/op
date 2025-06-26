@@ -1,0 +1,64 @@
+
+config theme 'theme'
+	option color '#2222359a'
+	option blur '00'
+	option navbar '1'
+	option use_video '0'
+
+config navbar
+	option name 'Overview'
+	option enable 'Enable'
+	option line '1'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/overview.png'
+	option address '/cgi-bin/luci/admin/status/overview'
+
+config navbar
+	option name 'Terminal'
+	option enable 'Enable'
+	option line '2'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/terminal.png'
+	option address '/cgi-bin/luci/admin/services/ttyd'
+
+config navbar
+	option name 'nikki'
+	option enable 'Enable'
+	option line '3'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/mihomo.png'
+	option address '/cgi-bin/luci/admin/services/nikki'
+
+
+config navbar
+	option name 'homeproxy'
+	option enable 'Enable'
+	option line '4'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/homeproxy.png'
+	option address '/cgi-bin/luci/admin/services/homeproxy'
+
+config navbar
+	option name 'AdGuardHome'
+	option enable 'Enable'
+	option line '5'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/adguardhome.png'
+	option address '/cgi-bin/luci/admin/services/adguardhome'
+
+config navbar
+	option name 'msd_lite'
+	option enable 'Enable'
+	option line '6'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/msd_lite.png'
+	option address '/cgi-bin/luci/admin/services/msd_lite'
+
+config navbar
+	option name 'Open Clash'
+	option enable 'Disable'
+	option line '7'
+	option newtab 'No'
+	option icon '/www/luci-static/alpha/gaya/icon/navbar/openclash.png'
+	option address '/cgi-bin/luci/admin/services/openclash'
+	

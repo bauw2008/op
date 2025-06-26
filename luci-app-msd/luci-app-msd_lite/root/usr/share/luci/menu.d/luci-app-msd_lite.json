@@ -1,0 +1,31 @@
+{
+	"admin/services/msd_lite": {
+		"title": "Msd_Lite",
+		"order": 50,
+		"action": {
+			"type": "firstchild"
+		},
+		"depends": {
+			"acl": [ "luci-app-msd_lite" ],
+			"uci": { "msd_lite": true },
+			"fs": { "/etc/config/msd_lite": "file" }
+		}
+	},
+	"admin/services/msd_lite/msd_lite": {
+		"title": "基本设定",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "msd_lite/msd_lite"
+		}
+	},
+	"admin/services/msd_lite/status": {
+		"title": "状态信息",
+		"order": 20,
+		"action": {
+			"type": "view",
+			"path": "msd_lite/status"
+		}
+	}
+}
+
