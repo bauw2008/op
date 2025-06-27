@@ -205,8 +205,8 @@ Login Box
 	z-index: 2;
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
-	-webkit-border-radius: 20px:
-	-moz-border-radius=20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius:20px;
 	border-radius: 20px;
 	-moz-box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
 	box-shadow: 15px 30px 30px rgba(0, 0, 0, 0.32);
@@ -350,7 +350,7 @@ input[type=password] {
 	display: inline;
 	color: #bdbdbd;
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: 300;
 	float: none;
 	border-radius: 10px;
 }
