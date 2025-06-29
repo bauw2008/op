@@ -1,0 +1,128 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2025
+
+START=90
+STOP=10
+USE_PROCD=1
+
+conf="/etc/modules.conf"
+rel="/etc/openwrt_release"
+mod="/lib/modules/$(uname -r)"
+
+last_val() {
+	uci get "$1" 2>/dev/null
+}
+
+has_changed() {
+	[ "$(last_val "$1")" != "$2" ]
+}
+
+load_config() {
+	config_load "turboacc"
+	config_get hw_wed config hw_wed "0"
+	config_get hw_flow config hw_flow "0"
+	config_get sw_flow config sw_flow "0"
+	config_get sfe_flow config sfe_flow "0"
+	config_get bbr_cca config bbr_cca "0"
+	config_get fullcone_nat config fullcone_nat "0"
+	config_get fullcone6 config fullcone6 "0"
+
+	[ ! -e "$mod/nft_flow_offload.ko" ] && {
+		sw_flow="0"
+		hw_flow="0"
+	}
+	[ ! -e "$mod/tcp_bbr.ko" ] && bbr_cca="0"
+}
+
+apply_firewall_config() {
+	local chg=0
+
+	has_changed firewall.@defaults[0].flow_offloading "$sw_flow" && {
+		uci set firewall.@defaults[0].flow_offloading="$sw_flow"
+		chg=1
+	}
+	has_changed firewall.@defaults[0].flow_offloading_hw "$hw_flow" && {
+		uci set firewall.@defaults[0].flow_offloading_hw="$hw_flow"
+		chg=1
+	}
+	has_changed firewall.@defaults[0].fullcone "$fullcone_nat" && {
+		uci set firewall.@defaults[0].fullcone="$fullcone_nat"
+		chg=1
+	}
+
+	for i in $(uci show firewall | grep "\.fullcone6=" | cut -d= -f1); do
+		[ "$(uci get $i)" != "$fullcone6" ] && {
+			uci set "$i"="$fullcone6"
+			chg=1
+		}
+	done
+
+	[ "$chg" -eq 1 ] && {
+		uci commit firewall
+		/etc/init.d/firewall restart >/dev/null 2>&1
+	}
+}
+
+load_sfe_modules() {
+	lsmod | grep -q fast_classifier || {
+		modprobe shortcut-fe-cm 2>/dev/null
+		modprobe fast-classifier 2>/dev/null
+	}
+}
+
+unload_sfe_modules() {
+	lsmod | grep -q fast_classifier && {
+		rmmod fast_classifier 2>/dev/null
+		rmmod shortcut_fe_cm 2>/dev/null
+	}
+}
+
+load_wed_module() {
+	if grep -q "mediatek" "$rel" && ! grep -q "mt7915e" "$conf"; then
+		echo "options mt7915e wed_enable=Y" >> "$conf"
+		rmmod mt7915e 2>/dev/null
+		modprobe mt7915e 2>/dev/null
+		wifi reload
+	fi
+}
+
+unload_wed_module() {
+	if grep -q "mediatek" "$rel" && grep -q "mt7915e" "$conf"; then
+		sed -i "/mt7915e/d" "$conf"
+		rmmod mt7915e 2>/dev/null
+		modprobe mt7915e 2>/dev/null
+		wifi reload
+	fi
+}
+
+set_tcp_bbr() {
+	cur=$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)
+	target="cubic"
+	[ "$bbr_cca" = "1" ] && target="bbr"
+
+	[ "$cur" != "$target" ] && sysctl -w net.ipv4.tcp_congestion_control="$target"
+}
+
+start_service() {
+	load_config
+	apply_firewall_config
+
+	[ "$sw_flow" != "1" ] && [ "$sfe_flow" = "1" ] && load_sfe_modules
+	[ "$hw_flow" = "1" ] && [ "$hw_wed" = "1" ] && load_wed_module
+
+	set_tcp_bbr
+}
+
+stop_service() {
+	load_config
+
+	[ "$hw_wed" = "0" ] && unload_wed_module
+	unload_sfe_modules
+
+	set_tcp_bbr
+}
+
+service_triggers() {
+	procd_add_reload_trigger "turboacc"
+}
+
